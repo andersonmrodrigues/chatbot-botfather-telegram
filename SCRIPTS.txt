@@ -1,0 +1,51 @@
+CREATE TABLE categoria
+(
+  id_categoria serial NOT NULL,
+  ds_categoria varchar(255),
+  CONSTRAINT categoria_pkey PRIMARY KEY (id_categoria)
+);
+
+CREATE TABLE produto
+(
+  id_produto serial NOT NULL,
+  id_categoria int,
+  ds_produto varchar(255),
+  vl_preco numeric(9,2),
+  CONSTRAINT produto_pkey PRIMARY KEY (id_produto),
+  CONSTRAINT fk_categoria FOREIGN KEY (id_categoria)
+  REFERENCES categoria(id_categoria)
+);
+
+CREATE TABLE cliente
+(
+  id_cliente serial NOT NULL,
+  nm_cliente varchar(255),
+  CONSTRAINT cliente_pkey PRIMARY KEY (id_cliente)
+);
+
+CREATE TABLE pedido
+(
+  id_pedido serial NOT NULL,
+  id_cliente int,
+  dt_pedido timestamp,
+  fg_finalizado boolean,
+  fg_entregue boolean,
+  CONSTRAINT pedido_pkey PRIMARY KEY (id_pedido),
+  CONSTRAINT fk_cliente FOREIGN KEY (id_cliente)
+  REFERENCES cliente(id_cliente)
+);
+
+CREATE TABLE pedido_item
+(
+  id_pedido_item serial NOT NULL,
+  id_pedido int,
+  id_produto int,
+  qt_pedido int,
+  vl_preco numeric (9,2),
+  ds_observacao varchar(255),
+  CONSTRAINT pedido_item_pkey PRIMARY KEY (id_pedido_item),
+  CONSTRAINT fk_pedido FOREIGN KEY (id_pedido)
+  REFERENCES pedido(id_pedido),
+  CONSTRAINT fk_produto FOREIGN KEY (id_produto)
+  REFERENCES produto(id_produto)
+);
