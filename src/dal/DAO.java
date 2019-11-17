@@ -50,7 +50,8 @@ public class DAO<T> {
 
         return lst;
     }
-    public ArrayList<T> findById(Class classe, String id) throws SQLException {
+
+    public ArrayList<T> findById(Class classe, Integer id) throws SQLException {
         ArrayList<T> lst = new ArrayList<>();
         String sql = "SELECT * FROM";
         PreparedStatement st;
@@ -59,7 +60,7 @@ public class DAO<T> {
         if (classe == Categoria.class) {
             sql += " categoria WHERE id_categoria = ?";
             st = conn.prepareStatement(sql);
-            st.setString(1, id);
+            st.setInt(1, id);
             rs = st.executeQuery();
             while (rs.next()) {
                 Categoria obj = new Categoria();
@@ -70,7 +71,7 @@ public class DAO<T> {
         } else if (classe == Produto.class) {
             sql += " produto WHERE id_produto = ?";
             st = conn.prepareStatement(sql);
-            st.setString(1, id);
+            st.setInt(1, id);
             rs = st.executeQuery();
             while (rs.next()) {
                 Produto obj = new Produto();
@@ -85,38 +86,64 @@ public class DAO<T> {
         return lst;
     }
 
-    public void inserir(T obj) throws SQLException {
+    public void inserir(T classe) throws SQLException {
         String sql = "INSERT INTO ";
         PreparedStatement st;
-
-        if (obj instanceof Cidade) {
-            Cidade c = (Cidade) obj;//fazendo CAST
-            sql += " cidade (uf, descricao, saude, educacao, renda"
-                    + ", ifdm, ranking_estadual, ranking_nacional)"
-                    + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
+        if (classe instanceof Produto) {
+            Produto obj = (Produto) classe;//fazendo CAST
+            sql += " produto(id_categoria, ds_produto, vl_preco)"
+                    + " VALUES (?, ?, ?)";
             st = conn.prepareStatement(sql);
-            st.setString(1, c.getUf());
-            st.setString(2, c.getDescricao());
-            st.setDouble(3, c.getSaude());
-            st.setDouble(4, c.getEducacao());
-            st.setDouble(5, c.getRenda());
-            st.setDouble(6, c.getIfdm());
-            st.setInt(7, c.getRankingEstadual());
-            st.setInt(8, c.getRankingNacional());
-        } else if (obj instanceof UnidadeFederacao) {
-            UnidadeFederacao c = (UnidadeFederacao) obj;//fazendo CAST
-            sql += " unidade_federacao (uf, descricao, media_saude, media_educacao"
-                    + ", media_renda, media_ifdm)"
-                    + " VALUES (?, ?, ?, ?, ?, ?)";
-
+            st.setInt(1, obj.getIdCategoria());
+            st.setString(2, obj.getDsProduto());
+            st.setBigDecimal(3, obj.getVlPreco());
+        } else if (classe instanceof Categoria) {
+            Categoria obj = (Categoria) classe;//fazendo CAST
+            sql += " categoria(ds_categoria) VALUES (?)";
             st = conn.prepareStatement(sql);
-            st.setString(1, c.getUf());
-            st.setString(2, c.getDescricao());
-            st.setDouble(3, c.getMediaSaude());
-            st.setDouble(4, c.getMediaEducacao());
-            st.setDouble(5, c.getMediaRenda());
-            st.setDouble(6, c.getMediaIfdm());
+            st.setString(1, obj.getDsCategoria());
+        } else {
+            throw new IllegalArgumentException("Método DAO não preparado para este objeto");
+        }
+
+        st.executeUpdate();
+    }
+
+    public void removeById(T classe, Integer id) throws SQLException {
+        String sql = "DELETE FROM ";
+        PreparedStatement st;
+        if (classe instanceof Produto) {
+            Produto obj = (Produto) classe;//fazendo CAST
+            sql += " produto WHERE id_produto = ? ";
+            st = conn.prepareStatement(sql);
+            st.setInt(1, id);
+        } else if (classe instanceof Categoria) {
+            Categoria obj = (Categoria) classe;//fazendo CAST
+            sql += " categoria WHERE id_categoria = ? ";
+            st = conn.prepareStatement(sql);
+            st.setInt(1, id);
+        } else {
+            throw new IllegalArgumentException("Método DAO não preparado para este objeto");
+        }
+
+        st.executeUpdate();
+    }
+
+    public void update(T classe, Integer id) throws SQLException {
+        String sql = "UPDATE ";
+        PreparedStatement st;
+        if (classe instanceof Produto) {
+            Produto obj = (Produto) classe;//fazendo CAST
+            sql += " produto SET id_categoria = ?, ds_produto = ?, vl_preco = ? WHERE id_produto = " + id;
+            st = conn.prepareStatement(sql);
+            st.setInt(1, obj.getIdCategoria());
+            st.setString(2, obj.getDsProduto());
+            st.setBigDecimal(3, obj.getVlPreco());
+        } else if (classe instanceof Categoria) {
+            Categoria obj = (Categoria) classe;//fazendo CAST
+            sql += " categoria SET ds_categoria = ? WHERE id_categoria = " + id;
+            st = conn.prepareStatement(sql);
+            st.setString(1, obj.getDsCategoria());
         } else {
             throw new IllegalArgumentException("Método DAO não preparado para este objeto");
         }
