@@ -5,7 +5,14 @@
  */
 package view;
 
+import dal.DAO;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.Categoria;
 
 /**
  *
@@ -18,6 +25,7 @@ public class FrmCategoria extends javax.swing.JFrame {
      */
     public FrmCategoria() {
         initComponents();
+        carregaTable();
     }
 
     /**
@@ -31,7 +39,7 @@ public class FrmCategoria extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableCategoria = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -39,7 +47,7 @@ public class FrmCategoria extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableCategoria.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -55,7 +63,7 @@ public class FrmCategoria extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tableCategoria);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Add-icon.png"))); // NOI18N
         jButton1.setText("Adicionar");
@@ -169,6 +177,27 @@ public class FrmCategoria extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tableCategoria;
     // End of variables declaration//GEN-END:variables
+
+    private void carregaTable() {
+        try {
+            DAO dao = new DAO();
+            List<Categoria> categoriaList = dao.findAll(Categoria.class);
+            //carragar esta lista na JTable
+            DefaultTableModel tbl = (DefaultTableModel) tableCategoria.getModel();
+            tbl.setRowCount(0);//limpando a tabela
+            for (Categoria c : categoriaList) {
+                Object[] linha = new Object[2];
+                linha[0] = c.getIdCategoria();
+                linha[1] = c.getDsCategoria();
+                tbl.addRow(linha);
+            }
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
 }

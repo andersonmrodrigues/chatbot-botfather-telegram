@@ -16,7 +16,7 @@ public class Conexao {
     private final String driver = "org.postgresql.Driver";
     private final String url = "jdbc:postgresql://localhost:5432/trabalho";
     private final String usuario = "postgres";
-    private final String senha = "postgres";//aqui no lab, "" (VAZIO)
+    private final String senha = "root";//aqui no lab, "" (VAZIO)
     private final Connection conexao;
 
     public Conexao() throws ClassNotFoundException, SQLException {
