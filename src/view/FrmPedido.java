@@ -274,7 +274,6 @@ public class FrmPedido extends javax.swing.JFrame {
         FrmCategoria cat = new FrmCategoria();
         cat.setTitle("Categoria");
         cat.setVisible(true);
-        cat.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCategoriaActionPerformed
 

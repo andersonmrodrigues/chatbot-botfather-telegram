@@ -51,7 +51,7 @@ public class DAO<T> {
         return lst;
     }
 
-    public ArrayList<T> findById(Class classe, Integer id) throws SQLException {
+    public T findById(Class classe, Integer id) throws SQLException {
         ArrayList<T> lst = new ArrayList<>();
         String sql = "SELECT * FROM";
         PreparedStatement st;
@@ -83,7 +83,7 @@ public class DAO<T> {
             }
         }
 
-        return lst;
+        return lst.get(0);
     }
 
     public void inserir(T classe) throws SQLException {
@@ -109,39 +109,38 @@ public class DAO<T> {
         st.executeUpdate();
     }
 
-    public void removeById(T classe, Integer id) throws SQLException {
+    public void removeById(T classe) throws SQLException {
         String sql = "DELETE FROM ";
         PreparedStatement st;
         if (classe instanceof Produto) {
             Produto obj = (Produto) classe;//fazendo CAST
             sql += " produto WHERE id_produto = ? ";
             st = conn.prepareStatement(sql);
-            st.setInt(1, id);
+            st.setInt(1, obj.getIdProduto());
         } else if (classe instanceof Categoria) {
             Categoria obj = (Categoria) classe;//fazendo CAST
             sql += " categoria WHERE id_categoria = ? ";
             st = conn.prepareStatement(sql);
-            st.setInt(1, id);
+            st.setInt(1, obj.getIdCategoria());
         } else {
             throw new IllegalArgumentException("Método DAO não preparado para este objeto");
         }
-
         st.executeUpdate();
     }
 
-    public void update(T classe, Integer id) throws SQLException {
+    public void update(T classe) throws SQLException {
         String sql = "UPDATE ";
         PreparedStatement st;
         if (classe instanceof Produto) {
             Produto obj = (Produto) classe;//fazendo CAST
-            sql += " produto SET id_categoria = ?, ds_produto = ?, vl_preco = ? WHERE id_produto = " + id;
+            sql += " produto SET id_categoria = ?, ds_produto = ?, vl_preco = ? WHERE id_produto = " + obj.getIdProduto();
             st = conn.prepareStatement(sql);
             st.setInt(1, obj.getIdCategoria());
             st.setString(2, obj.getDsProduto());
             st.setBigDecimal(3, obj.getVlPreco());
         } else if (classe instanceof Categoria) {
             Categoria obj = (Categoria) classe;//fazendo CAST
-            sql += " categoria SET ds_categoria = ? WHERE id_categoria = " + id;
+            sql += " categoria SET ds_categoria = ? WHERE id_categoria = " + obj.getIdCategoria();
             st = conn.prepareStatement(sql);
             st.setString(1, obj.getDsCategoria());
         } else {

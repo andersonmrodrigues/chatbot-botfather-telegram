@@ -9,8 +9,10 @@ import dal.DAO;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.Categoria;
 
@@ -18,13 +20,14 @@ import model.Categoria;
  *
  * @author anderson
  */
-public class FrmCategoria extends javax.swing.JFrame {
+public class FrmCategoria extends JDialog {
 
     /**
      * Creates new form FrmCategoria
      */
     public FrmCategoria() {
         initComponents();
+        this.setModal(true);
         carregaTable();
     }
 
@@ -40,12 +43,12 @@ public class FrmCategoria extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableCategoria = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnAddCat = new javax.swing.JButton();
+        btnEditCat = new javax.swing.JButton();
+        btnRmvCat = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         tableCategoria.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -65,18 +68,28 @@ public class FrmCategoria extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tableCategoria);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Add-icon.png"))); // NOI18N
-        jButton1.setText("Adicionar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAddCat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Add-icon.png"))); // NOI18N
+        btnAddCat.setText("Adicionar");
+        btnAddCat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnAddCatActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Editar");
+        btnEditCat.setText("Editar");
+        btnEditCat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditCatActionPerformed(evt);
+            }
+        });
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Button-Delete-icon.png"))); // NOI18N
-        jButton3.setText("Remover");
+        btnRmvCat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Button-Delete-icon.png"))); // NOI18N
+        btnRmvCat.setText("Remover");
+        btnRmvCat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRmvCatActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Categoria");
 
@@ -90,50 +103,86 @@ public class FrmCategoria extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAddCat, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEditCat, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnRmvCat, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addContainerGap(30, Short.MAX_VALUE)))
                     .addComponent(jLabel1)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(6, 6, 6)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addGap(0, 6, Short.MAX_VALUE))
+                    .addComponent(btnAddCat)
+                    .addComponent(btnEditCat)
+                    .addComponent(btnRmvCat)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 11, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnRmvCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRmvCatActionPerformed
+        int row = tableCategoria.getSelectedRow();
+        int column = 0;
+        Integer id = (Integer) tableCategoria.getValueAt(row, column);
+        try {
+            DAO dao = new DAO();
+            Categoria c = new Categoria();
+            c.setIdCategoria(id);
+            dao.removeById(c);
+            carregaTable();
+        } catch (Exception e) {
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRmvCatActionPerformed
+
+    private void btnEditCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditCatActionPerformed
+        // TODO add your handling code here:
+        int row = tableCategoria.getSelectedRow();
+        int column = 0;
+        Integer id = (Integer) tableCategoria.getValueAt(row, column);
+        try {
+            DAO dao = new DAO();
+            Categoria c = new Categoria();
+            c = (Categoria) dao.findById(Categoria.class, id);
+            if (c != null) {
+                FrmFormCategoria cat = new FrmFormCategoria(c);
+                cat.setVisible(true);
+            }
+        } catch (Exception e) {
+        }
+        carregaTable();
+    }//GEN-LAST:event_btnEditCatActionPerformed
+
+    private void btnAddCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCatActionPerformed
         FrmFormCategoria cat = new FrmFormCategoria();
         cat.setTitle("Categoria");
         cat.setVisible(true);
-        cat.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        carregaTable();
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnAddCatActionPerformed
 
     /**
      * @param args the command line arguments
@@ -171,9 +220,9 @@ public class FrmCategoria extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnAddCat;
+    private javax.swing.JButton btnEditCat;
+    private javax.swing.JButton btnRmvCat;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
