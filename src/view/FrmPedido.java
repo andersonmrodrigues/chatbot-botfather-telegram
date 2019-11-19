@@ -245,9 +245,7 @@ public class FrmPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFecharActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-
         try {
-
             model.Livro l = new model.Livro();//novo objeto livro
             //tela que permite informar os dados do livro
             FrmCadastroLivro3 f = new FrmCadastroLivro3(l);
@@ -268,6 +266,10 @@ public class FrmPedido extends javax.swing.JFrame {
 
     private void btnProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProdutoActionPerformed
         // TODO add your handling code here:
+        FrmProduto prod = new FrmProduto();
+        prod.setTitle("Produto");
+        prod.setVisible(true);
+        prod.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_btnProdutoActionPerformed
 
     private void btnCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoriaActionPerformed

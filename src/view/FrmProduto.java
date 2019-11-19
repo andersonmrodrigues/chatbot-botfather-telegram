@@ -5,7 +5,17 @@
  */
 package view;
 
+import dal.DAO;
+import java.math.BigDecimal;
+import java.sql.SQLException;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.Categoria;
+import model.Produto;
 
 /**
  *
@@ -18,6 +28,7 @@ public class FrmProduto extends javax.swing.JFrame {
      */
     public FrmProduto() {
         initComponents();
+        carregaTableProduto();
     }
 
     /**
@@ -31,7 +42,7 @@ public class FrmProduto extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableProduto = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -39,7 +50,7 @@ public class FrmProduto extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableProduto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -55,7 +66,7 @@ public class FrmProduto extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tableProduto);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Add-icon.png"))); // NOI18N
         jButton1.setText("Adicionar");
@@ -70,7 +81,7 @@ public class FrmProduto extends javax.swing.JFrame {
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Button-Delete-icon.png"))); // NOI18N
         jButton3.setText("Remover");
 
-        jLabel1.setText("Categoria");
+        jLabel1.setText("Produto");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -120,10 +131,10 @@ public class FrmProduto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        FrmFormCategoria cat = new FrmFormCategoria();
-        cat.setTitle("Categoria");
-        cat.setVisible(true);
-        cat.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        FrmFormProduto prod = new FrmFormProduto();
+        prod.setTitle("Produto");
+        prod.setVisible(true);
+        prod.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -170,6 +181,37 @@ public class FrmProduto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tableProduto;
     // End of variables declaration//GEN-END:variables
+
+    private void carregaTableProduto() {
+        try {
+            DAO dao = new DAO();
+            List<Produto> produtoList = dao.findAll(Produto.class);
+            //carragar esta lista na JTable
+            DefaultTableModel tbl = (DefaultTableModel) tableProduto.getModel();
+            tbl.setRowCount(0);//limpando a tabela
+            for (Produto p : produtoList) {
+                Object[] linha = new Object[4];
+                linha[0] = p.getIdProduto();
+                List<Categoria> catList = dao.findById(Categoria.class, p.getIdCategoria());
+                if (catList != null && !catList.isEmpty()) {
+                    linha[1] = catList.get(0).getDsCategoria();
+                } else {
+                    linha[1] = "";
+                }
+                linha[2] = p.getDsProduto();
+                linha[3] = currencyFormat(p.getVlPreco());
+                tbl.addRow(linha);
+            }
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public static String currencyFormat(BigDecimal n) {
+        return NumberFormat.getCurrencyInstance().format(n);
+    }
 }
