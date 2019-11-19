@@ -5,17 +5,31 @@
  */
 package view;
 
+import dal.DAO;
+import javax.swing.JOptionPane;
+import model.Categoria;
+
 /**
  *
  * @author anderson
  */
-public class FrmFormCategoria extends javax.swing.JFrame {
+public class FrmFormCategoria extends javax.swing.JDialog {
 
     /**
      * Creates new form FrmFormCategoria
      */
     public FrmFormCategoria() {
         initComponents();
+        this.setModal(true);
+    }
+
+    FrmFormCategoria(Categoria c) {
+        initComponents();
+        this.setModal(true);
+        if (c != null) {
+            txtId.setText(c.getIdCategoria().toString());
+            txtCat.setText(c.getDsCategoria());
+        }
     }
 
     /**
@@ -34,6 +48,8 @@ public class FrmFormCategoria extends javax.swing.JFrame {
         btnSalvar = new javax.swing.JButton();
         btnSalvar2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        txtId = new javax.swing.JTextField();
+        lblNomeCat1 = new javax.swing.JLabel();
 
         btnSalvar1.setText("Salvar");
         btnSalvar1.addActionListener(new java.awt.event.ActionListener() {
@@ -42,7 +58,7 @@ public class FrmFormCategoria extends javax.swing.JFrame {
             }
         });
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         txtCat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -69,6 +85,16 @@ public class FrmFormCategoria extends javax.swing.JFrame {
 
         jLabel1.setText("Cadastrar/Editar Categoria");
 
+        txtId.setFocusable(false);
+        txtId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIdActionPerformed(evt);
+            }
+        });
+
+        lblNomeCat1.setText("ID:");
+        lblNomeCat1.setToolTipText("");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -77,27 +103,35 @@ public class FrmFormCategoria extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSalvar2, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblNomeCat)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtCat, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(22, 22, 22)
-                        .addComponent(jLabel1)))
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblNomeCat)
+                            .addComponent(lblNomeCat1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtId)
+                            .addComponent(txtCat, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE))))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel1)
-                .addGap(19, 19, 19)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNomeCat1)
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNomeCat)
                     .addComponent(txtCat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar)
                     .addComponent(btnSalvar2))
@@ -130,6 +164,22 @@ public class FrmFormCategoria extends javax.swing.JFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
+        try {
+            DAO dao = new DAO();
+            Categoria c = new Categoria();
+            if (!txtId.getText().isEmpty()) {
+                c.setIdCategoria(Integer.parseInt(txtId.getText()));
+            }
+            c.setDsCategoria(txtCat.getText());
+            if (c.getIdCategoria() == null) {
+                dao.inserir(c);
+            } else {
+                dao.update(c);
+            }
+            this.dispose();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnSalvar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvar1ActionPerformed
@@ -139,6 +189,10 @@ public class FrmFormCategoria extends javax.swing.JFrame {
     private void btnSalvar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvar2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnSalvar2ActionPerformed
+
+    private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIdActionPerformed
 
     /**
      * @param args the command line arguments
@@ -182,6 +236,8 @@ public class FrmFormCategoria extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblNomeCat;
+    private javax.swing.JLabel lblNomeCat1;
     private javax.swing.JTextField txtCat;
+    private javax.swing.JTextField txtId;
     // End of variables declaration//GEN-END:variables
 }

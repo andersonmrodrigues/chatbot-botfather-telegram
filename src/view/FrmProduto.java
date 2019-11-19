@@ -194,7 +194,7 @@ public class FrmProduto extends javax.swing.JFrame {
             for (Produto p : produtoList) {
                 Object[] linha = new Object[4];
                 linha[0] = p.getIdProduto();
-                List<Categoria> catList = dao.findById(Categoria.class, p.getIdCategoria());
+                ArrayList<Categoria> catList = (ArrayList<Categoria>) dao.findById(Categoria.class, p.getIdCategoria());
                 if (catList != null && !catList.isEmpty()) {
                     linha[1] = catList.get(0).getDsCategoria();
                 } else {
