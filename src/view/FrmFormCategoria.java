@@ -5,7 +5,6 @@
  */
 package view;
 
-import com.mysql.jdbc.StringUtils;
 import dal.DAO;
 import javax.swing.JOptionPane;
 import model.Categoria;
