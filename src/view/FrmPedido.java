@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -17,15 +18,16 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author ivansuptitz
  */
-public class FrmBiblioteca extends javax.swing.JFrame {
+public class FrmPedido extends javax.swing.JFrame {
+
     /**
      * Creates new form FrmBiblioteca
      */
-    public FrmBiblioteca() {
-            initComponents();
-            
-            carregaTable();//carregar para a tabela
-            
+    public FrmPedido() {
+        initComponents();
+
+        carregaTable();//carregar para a tabela
+
     }
 
     /**
@@ -52,7 +54,7 @@ public class FrmBiblioteca extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Lista de Livros"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         btnFechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Users-Exit-icon.png"))); // NOI18N
         btnFechar.setText("Fechar");
@@ -64,6 +66,11 @@ public class FrmBiblioteca extends javax.swing.JFrame {
 
         btnRemover.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Button-Delete-icon.png"))); // NOI18N
         btnRemover.setText("Remover");
+        btnRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoverActionPerformed(evt);
+            }
+        });
 
         btnAdicionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Add-icon.png"))); // NOI18N
         btnAdicionar.setText("Adicionar");
@@ -185,7 +192,7 @@ public class FrmBiblioteca extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(181, Short.MAX_VALUE)))
+                    .addContainerGap(190, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -214,7 +221,7 @@ public class FrmBiblioteca extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(10, 10, 10)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(296, Short.MAX_VALUE)))
+                    .addContainerGap(337, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -238,21 +245,18 @@ public class FrmBiblioteca extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFecharActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-        
         try {
-            
             model.Livro l = new model.Livro();//novo objeto livro
             //tela que permite informar os dados do livro
             FrmCadastroLivro3 f = new FrmCadastroLivro3(l);
             f.setTitle("Cadastro de livro");
             f.setVisible(true);
-            
-            
+
             dal.LivroDAO dao = new dal.LivroDAO();
             dao.inserir(l);//inserir no DB
-                  
+
             carregaTable();//recarregar a tela (agora com o novo registro)
-            
+
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
@@ -262,9 +266,16 @@ public class FrmBiblioteca extends javax.swing.JFrame {
 
     private void btnProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProdutoActionPerformed
         // TODO add your handling code here:
+        FrmProduto prod = new FrmProduto();
+        prod.setTitle("Produto");
+        prod.setVisible(true);
+        prod.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_btnProdutoActionPerformed
 
     private void btnCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoriaActionPerformed
+        FrmCategoria cat = new FrmCategoria();
+        cat.setTitle("Categoria");
+        cat.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCategoriaActionPerformed
 
@@ -276,13 +287,17 @@ public class FrmBiblioteca extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnFinalizaActionPerformed
 
-    private void carregaTable(){
+    private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRemoverActionPerformed
+
+    private void carregaTable() {
         try {
             dal.LivroDAO dao = new dal.LivroDAO();
-            
+
             ArrayList<model.Livro> lstLivros = dao.consultar();
             //carragar esta lista na JTable
-            DefaultTableModel tbl = (DefaultTableModel)jTable1.getModel();
+            DefaultTableModel tbl = (DefaultTableModel) jTable1.getModel();
             tbl.setRowCount(0);//limpando a tabela
             for (int i = 0; i < lstLivros.size(); i++) {
                 Object[] linha = new Object[5];
@@ -292,7 +307,7 @@ public class FrmBiblioteca extends javax.swing.JFrame {
                 linha[2] = temp.getAutor();
                 linha[3] = temp.getCategoria();
                 linha[4] = temp.getDataPublicacao();
-                
+
                 tbl.addRow(linha);
             }
         } catch (ClassNotFoundException ex) {
@@ -302,7 +317,7 @@ public class FrmBiblioteca extends javax.swing.JFrame {
         }
 
     }
-        
+
     /**
      * @param args the command line arguments
      */
@@ -320,20 +335,21 @@ public class FrmBiblioteca extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmBiblioteca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmBiblioteca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmBiblioteca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmBiblioteca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmBiblioteca().setVisible(true);
+                new FrmPedido().setVisible(true);
             }
         });
     }
