@@ -5,14 +5,23 @@
  */
 package view;
 
-import java.io.IOException;
+import dal.DAO;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.Cliente;
+import model.Pedido;
+import model.PedidoItem;
+import model.Produto;
+import static view.FrmProduto.currencyFormat;
 
 /**
  *
@@ -25,7 +34,6 @@ public class FrmPedido extends javax.swing.JFrame {
      */
     public FrmPedido() {
         initComponents();
-
         carregaTable();//carregar para a tabela
 
     }
@@ -42,10 +50,10 @@ public class FrmPedido extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnFechar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablePedido = new javax.swing.JTable();
         btnProduto = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tablePedidoItem = new javax.swing.JTable();
         btnCategoria = new javax.swing.JButton();
         btnAtualizaTela = new javax.swing.JButton();
         btnFinaliza = new javax.swing.JButton();
@@ -62,19 +70,19 @@ public class FrmPedido extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablePedido.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Título", "Autor", "Categoria", "Data Lcto"
+                "N° Pedido", "Cliente", "Data/Hora", "Valor Total"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -85,7 +93,7 @@ public class FrmPedido extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tablePedido);
 
         btnProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/list.png"))); // NOI18N
         btnProduto.setText("Produtos");
@@ -95,19 +103,19 @@ public class FrmPedido extends javax.swing.JFrame {
             }
         });
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tablePedidoItem.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Título", "Autor", "Categoria", "Data Lcto"
+                "Cod Produto", "Descrição", "Observação", "Qtde", "Vl Unit", "Vl Total"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -118,7 +126,7 @@ public class FrmPedido extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(jTable3);
+        jScrollPane3.setViewportView(tablePedidoItem);
 
         btnCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/list.png"))); // NOI18N
         btnCategoria.setText("Categorias");
@@ -158,8 +166,8 @@ public class FrmPedido extends javax.swing.JFrame {
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(43, 43, 43)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnAtualizaTela, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                            .addComponent(btnFinaliza, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(btnAtualizaTela, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnFinaliza, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
                             .addComponent(btnCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(21, 21, 21))))
@@ -167,7 +175,7 @@ public class FrmPedido extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(181, Short.MAX_VALUE)))
+                    .addContainerGap(201, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,8 +207,8 @@ public class FrmPedido extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -234,6 +242,9 @@ public class FrmPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCategoriaActionPerformed
 
     private void btnAtualizaTelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizaTelaActionPerformed
+        carregaTable();
+        DefaultTableModel tbl = (DefaultTableModel) tablePedidoItem.getModel();
+        tbl.setRowCount(0);//limpando a tabela
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAtualizaTelaActionPerformed
 
@@ -241,30 +252,68 @@ public class FrmPedido extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnFinalizaActionPerformed
 
+    private void carregaTableItemPedido(Integer id) {
+        try {
+            DAO dao = new DAO();
+            List<PedidoItem> pedidoItemList = dao.findAll(PedidoItem.class, id);
+            DefaultTableModel tbl = (DefaultTableModel) tablePedidoItem.getModel();
+            tbl.setRowCount(0);//limpando a tabela
+            for (PedidoItem pi : pedidoItemList) {
+                pi.setProduto((Produto) dao.findById(Produto.class, pi.getIdProduto()));
+                Object[] linha = new Object[6];
+                linha[0] = pi.getProduto().getIdProduto();
+                linha[1] = pi.getProduto().getDsProduto();
+                linha[2] = pi.getDsObservacao();
+                linha[3] = pi.getQtPedido();
+                linha[4] = currencyFormat(pi.getVlPreco());
+                linha[5] = currencyFormat(new BigDecimal(pi.getQtPedido().toString()).multiply(pi.getVlPreco()));
+                tbl.addRow(linha);
+            }
+        } catch (Exception e) {
+        }
+
+    }
+
     private void carregaTable() {
-//        try {
-//            dal.LivroDAO dao = new dal.LivroDAO();
-//
-//            ArrayList<model.Livro> lstLivros = dao.consultar();
-//            //carragar esta lista na JTable
-//            DefaultTableModel tbl = (DefaultTableModel) jTable1.getModel();
-//            tbl.setRowCount(0);//limpando a tabela
-//            for (int i = 0; i < lstLivros.size(); i++) {
-//                Object[] linha = new Object[5];
-//                model.Livro temp = lstLivros.get(i);
-//                linha[0] = temp.getId();
-//                linha[1] = temp.getTitulo();
-//                linha[2] = temp.getAutor();
-//                linha[3] = temp.getCategoria();
-//                linha[4] = temp.getDataPublicacao();
-//
-//                tbl.addRow(linha);
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            JOptionPane.showMessageDialog(this, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
-//        } catch (SQLException ex) {
-//            JOptionPane.showMessageDialog(this, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
-//        }
+        try {
+            DAO dao = new DAO();
+
+            List<Pedido> pedidoList = dao.findAll(Pedido.class, null);
+            //carragar esta lista na JTable
+            DefaultTableModel tbl = (DefaultTableModel) tablePedido.getModel();
+            tbl.setRowCount(0);//limpando a tabela
+            for (Pedido pedido : pedidoList) {
+                if (pedido.getIdCliente() != null) {
+                    pedido.setCliente((Cliente) dao.findById(Cliente.class, pedido.getIdCliente()));
+                }
+                List<PedidoItem> pedidoItemList = dao.findAll(PedidoItem.class, pedido.getIdPedido());
+                BigDecimal vlTotal = BigDecimal.ZERO;
+                for (PedidoItem pi : pedidoItemList) {
+                    vlTotal = vlTotal.add(new BigDecimal(pi.getQtPedido().toString()).multiply(pi.getVlPreco()));
+                }
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                Object[] linha = new Object[4];
+                linha[0] = pedido.getIdPedido();
+                linha[1] = pedido.getCliente().getDsCliente();
+                linha[2] = sdf.format(pedido.getDtPedido());
+                linha[3] = currencyFormat(vlTotal);
+                tbl.addRow(linha);
+            }
+
+            tablePedido.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent e) {
+                    int row = tablePedido.getSelectedRow();
+                    int col = 0;
+                    Integer id = (Integer) tablePedido.getValueAt(row, col);
+                    carregaTableItemPedido(id);
+                }
+
+            });
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
 
     }
 
@@ -313,7 +362,7 @@ public class FrmPedido extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable3;
+    private javax.swing.JTable tablePedido;
+    private javax.swing.JTable tablePedidoItem;
     // End of variables declaration//GEN-END:variables
 }

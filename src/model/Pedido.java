@@ -18,6 +18,7 @@ public class Pedido {
     private Date dtPedido;
     private Boolean fgFinalizado;
     private boolean fgEntregue;
+    private Cliente cliente;
 
     public Integer getIdPedido() {
         return idPedido;
@@ -57,6 +58,14 @@ public class Pedido {
 
     public void setFgEntregue(boolean fgEntregue) {
         this.fgEntregue = fgEntregue;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
 }

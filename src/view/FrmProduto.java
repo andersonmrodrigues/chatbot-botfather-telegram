@@ -187,7 +187,7 @@ public class FrmProduto extends javax.swing.JFrame {
     private void carregaTableProduto() {
         try {
             DAO dao = new DAO();
-            List<Produto> produtoList = dao.findAll(Produto.class);
+            List<Produto> produtoList = dao.findAll(Produto.class, null);
             //carragar esta lista na JTable
             DefaultTableModel tbl = (DefaultTableModel) tableProduto.getModel();
             tbl.setRowCount(0);//limpando a tabela

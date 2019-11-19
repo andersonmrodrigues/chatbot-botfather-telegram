@@ -18,14 +18,14 @@ public class DAO<T> {
         this.conn = new Conexao();
     }
 
-    public ArrayList<T> findAll(Class classe) throws SQLException {
+    public ArrayList<T> findAll(Class classe, Integer id) throws SQLException {
         ArrayList<T> lst = new ArrayList<>();
         String sql = "SELECT * FROM";
         PreparedStatement st;
         ResultSet rs;
 
         if (classe == Categoria.class) {
-            sql += " categoria";
+            sql += " categoria ORDER BY ds_categoria";
             st = conn.prepareStatement(sql);
             rs = st.executeQuery();
             while (rs.next()) {
@@ -35,7 +35,7 @@ public class DAO<T> {
                 lst.add((T) obj);
             }
         } else if (classe == Produto.class) {
-            sql += " produto";
+            sql += " produto ORDER BY ds_produto ";
             st = conn.prepareStatement(sql);
             rs = st.executeQuery();
             while (rs.next()) {
@@ -44,6 +44,40 @@ public class DAO<T> {
                 obj.setIdCategoria(rs.getInt("id_categoria"));
                 obj.setDsProduto(rs.getString("ds_produto"));
                 obj.setVlPreco(rs.getBigDecimal("vl_preco"));
+                lst.add((T) obj);
+            }
+        } else if (classe == Pedido.class) {
+            sql += " pedido WHERE fg_entregue <> true ORDER BY id_pedido ";
+            st = conn.prepareStatement(sql);
+            rs = st.executeQuery();
+            while (rs.next()) {
+                Pedido obj = new Pedido();
+                obj.setIdPedido(rs.getInt("id_pedido"));
+                obj.setIdCliente(rs.getInt("id_cliente"));
+                obj.setDtPedido(rs.getDate("dt_pedido"));
+                obj.setFgFinalizado(rs.getBoolean("fg_finalizado"));
+                obj.setFgEntregue(rs.getBoolean("fg_entregue"));
+                lst.add((T) obj);
+            }
+        } else if (classe == PedidoItem.class) {
+            sql += " pedido_item ";
+            if (id != null) {
+                sql += " WHERE id_pedido = ?";
+            }
+            sql += " ORDER BY id_pedido_item";
+            st = conn.prepareStatement(sql);
+            if (id != null) {
+                st.setInt(1, id);
+            }
+            rs = st.executeQuery();
+            while (rs.next()) {
+                PedidoItem obj = new PedidoItem();
+                obj.setIdPedidoItem(rs.getInt("id_pedido_item"));
+                obj.setIdPedido(rs.getInt("id_pedido"));
+                obj.setIdProduto(rs.getInt("id_produto"));
+                obj.setQtPedido(rs.getInt("qt_pedido"));
+                obj.setVlPreco(rs.getBigDecimal("vl_preco"));
+                obj.setDsObservacao(rs.getString("ds_observacao"));
                 lst.add((T) obj);
             }
         }
@@ -79,6 +113,29 @@ public class DAO<T> {
                 obj.setIdCategoria(rs.getInt("id_categoria"));
                 obj.setDsProduto(rs.getString("ds_produto"));
                 obj.setVlPreco(rs.getBigDecimal("vl_preco"));
+                lst.add((T) obj);
+            }
+        } else if (classe == Cliente.class) {
+            sql += " cliente WHERE id_cliente = ?";
+            st = conn.prepareStatement(sql);
+            st.setInt(1, id);
+            rs = st.executeQuery();
+            while (rs.next()) {
+                Cliente obj = new Cliente();
+                obj.setIdCliente(rs.getInt("id_cliente"));
+                obj.setDsCliente(rs.getString("nm_cliente"));
+                lst.add((T) obj);
+            }
+        } else if (classe == Produto.class) {
+            sql += " produto WHERE id_produto = ?";
+            st = conn.prepareStatement(sql);
+            st.setInt(1, id);
+            rs = st.executeQuery();
+            while (rs.next()) {
+                Produto obj = new Produto();
+                obj.setIdProduto(rs.getInt("id_produto"));
+                obj.setIdCategoria(rs.getInt("id_categoria"));
+                obj.setDsProduto(rs.getString("ds_produto"));
                 lst.add((T) obj);
             }
         }

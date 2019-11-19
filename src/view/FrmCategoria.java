@@ -185,8 +185,7 @@ public class FrmCategoria extends JDialog {
         Integer id = (Integer) tableCategoria.getValueAt(row, column);
         try {
             DAO dao = new DAO();
-            Categoria c = new Categoria();
-            c = (Categoria) dao.findById(Categoria.class, id);
+            Categoria c = (Categoria) dao.findById(Categoria.class, id);
             if (c != null) {
                 FrmFormCategoria cat = new FrmFormCategoria(c);
                 cat.setVisible(true);
@@ -258,7 +257,7 @@ public class FrmCategoria extends JDialog {
     private void carregaTable() {
         try {
             DAO dao = new DAO();
-            List<Categoria> categoriaList = dao.findAll(Categoria.class);
+            List<Categoria> categoriaList = dao.findAll(Categoria.class, null);
             //carragar esta lista na JTable
             DefaultTableModel tbl = (DefaultTableModel) tableCategoria.getModel();
             tbl.setRowCount(0);//limpando a tabela

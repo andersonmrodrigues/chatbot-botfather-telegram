@@ -19,6 +19,8 @@ public class PedidoItem {
     private Integer qtPedido;
     private BigDecimal vlPreco;
     private String dsObservacao;
+    private Produto produto;
+    private Pedido pedido;
 
     public Integer getIdPedidoItem() {
         return idPedidoItem;
@@ -66,6 +68,22 @@ public class PedidoItem {
 
     public void setDsObservacao(String dsObservacao) {
         this.dsObservacao = dsObservacao;
+    }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
     }
 
 }

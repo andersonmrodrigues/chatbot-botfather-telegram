@@ -31,7 +31,7 @@ public class FrmFormProduto extends javax.swing.JFrame {
     private void carregaCategoriaCombo() {
         try {
             DAO dao = new DAO();
-            ArrayList<Categoria> catList = dao.findAll(Categoria.class);
+            ArrayList<Categoria> catList = dao.findAll(Categoria.class, null);
             Collections.sort(catList);
             categoriaCombo.removeAllItems();
             for (Categoria c : catList) {
