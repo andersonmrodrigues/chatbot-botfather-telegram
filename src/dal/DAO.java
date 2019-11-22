@@ -47,7 +47,7 @@ public class DAO<T> {
                 lst.add((T) obj);
             }
         } else if (classe == Pedido.class) {
-            sql += " pedido WHERE fg_entregue <> true ORDER BY id_pedido ";
+            sql += " pedido WHERE fg_entregue IS NOT true AND fg_finalizado IS true ORDER BY dt_pedido DESC ";
             st = conn.prepareStatement(sql);
             rs = st.executeQuery();
             while (rs.next()) {
@@ -138,6 +138,20 @@ public class DAO<T> {
                 obj.setDsProduto(rs.getString("ds_produto"));
                 lst.add((T) obj);
             }
+        } else if (classe == Pedido.class) {
+            sql += " pedido WHERE id_pedido = ?";
+            st = conn.prepareStatement(sql);
+            st.setInt(1, id);
+            rs = st.executeQuery();
+            while (rs.next()) {
+                Pedido obj = new Pedido();
+                obj.setIdPedido(rs.getInt("id_pedido"));
+                obj.setIdCliente(rs.getInt("id_cliente"));
+                obj.setDtPedido(rs.getDate("dt_pedido"));
+                obj.setFgEntregue(rs.getBoolean("fg_entregue"));
+                obj.setFgFinalizado(rs.getBoolean("fg_finalizado"));
+                lst.add((T) obj);
+            }
         }
 
         return lst.get(0);
@@ -186,24 +200,37 @@ public class DAO<T> {
     }
 
     public void update(T classe) throws SQLException {
-        String sql = "UPDATE ";
-        PreparedStatement st;
-        if (classe instanceof Produto) {
-            Produto obj = (Produto) classe;//fazendo CAST
-            sql += " produto SET id_categoria = ?, ds_produto = ?, vl_preco = ? WHERE id_produto = " + obj.getIdProduto();
-            st = conn.prepareStatement(sql);
-            st.setInt(1, obj.getIdCategoria());
-            st.setString(2, obj.getDsProduto());
-            st.setBigDecimal(3, obj.getVlPreco());
-        } else if (classe instanceof Categoria) {
-            Categoria obj = (Categoria) classe;//fazendo CAST
-            sql += " categoria SET ds_categoria = ? WHERE id_categoria = " + obj.getIdCategoria();
-            st = conn.prepareStatement(sql);
-            st.setString(1, obj.getDsCategoria());
-        } else {
-            throw new IllegalArgumentException("Método DAO não preparado para este objeto");
+        try {
+            String sql = "UPDATE ";
+            PreparedStatement st;
+            if (classe instanceof Produto) {
+                Produto obj = (Produto) classe;//fazendo CAST
+                sql += " produto SET id_categoria = ?, ds_produto = ?, vl_preco = ? WHERE id_produto = " + obj.getIdProduto();
+                st = conn.prepareStatement(sql);
+                st.setInt(1, obj.getIdCategoria());
+                st.setString(2, obj.getDsProduto());
+                st.setBigDecimal(3, obj.getVlPreco());
+            } else if (classe instanceof Categoria) {
+                Categoria obj = (Categoria) classe;//fazendo CAST
+                sql += " categoria SET ds_categoria = ? WHERE id_categoria = " + obj.getIdCategoria();
+                st = conn.prepareStatement(sql);
+                st.setString(1, obj.getDsCategoria());
+            } else if (classe instanceof Pedido) {
+                Pedido obj = (Pedido) classe;//fazendo CAST
+                sql += " pedido SET id_cliente=?, dt_pedido=?, fg_finalizado=?, fg_entregue=? WHERE id_pedido = " + obj.getIdPedido();
+                st = conn.prepareStatement(sql);
+                st.setInt(1, obj.getIdCliente());
+                st.setDate(2, obj.getDtPedido());
+                st.setBoolean(3, obj.getFgFinalizado());
+                st.setBoolean(4, obj.getFgEntregue());
+            } else {
+                throw new IllegalArgumentException("Método DAO não preparado para este objeto");
+            }
+
+            st.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        st.executeUpdate();
     }
 }
