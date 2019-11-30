@@ -17,7 +17,7 @@ public class Pedido {
     private Integer idCliente;
     private Date dtPedido;
     private Boolean fgFinalizado;
-    private boolean fgEntregue;
+    private Boolean fgEntregue;
     private Cliente cliente;
 
     public Integer getIdPedido() {
@@ -52,11 +52,11 @@ public class Pedido {
         this.fgFinalizado = fgFinalizado;
     }
 
-    public boolean isFgEntregue() {
+    public Boolean getFgEntregue() {
         return fgEntregue;
     }
 
-    public void setFgEntregue(boolean fgEntregue) {
+    public void setFgEntregue(Boolean fgEntregue) {
         this.fgEntregue = fgEntregue;
     }
 
