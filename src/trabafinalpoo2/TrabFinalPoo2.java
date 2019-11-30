@@ -5,7 +5,7 @@
  */
 package trabafinalpoo2;
 
-import bot.BotUtils;
+import bot.BotTelegram;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -31,7 +31,7 @@ public class TrabFinalPoo2 {
 
         // Register our bot
         try {
-            botsApi.registerBot(new BotUtils());
+            botsApi.registerBot(new BotTelegram());
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }

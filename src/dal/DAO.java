@@ -1,5 +1,6 @@
 package dal;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -85,6 +86,34 @@ public class DAO<T> {
         return lst;
     }
 
+    public T findPedidoByIdCliente(Class classe, Integer id) throws SQLException {
+        ArrayList<T> lst = new ArrayList<>();
+        String sql = "SELECT * FROM";
+        PreparedStatement st;
+        ResultSet rs;
+
+        if (classe == Pedido.class) {
+            sql += " pedido WHERE id_cliente = ? AND fg_entregue IS NOT true AND fg_finalizado IS NOT true ";
+            st = conn.prepareStatement(sql);
+            st.setInt(1, id);
+            rs = st.executeQuery();
+            while (rs.next()) {
+                Pedido obj = new Pedido();
+                obj.setIdPedido(rs.getInt("id_pedido"));
+                obj.setIdCliente(rs.getInt("id_cliente"));
+                obj.setDtPedido(rs.getDate("dt_pedido"));
+                obj.setFgEntregue(rs.getBoolean("fg_entregue"));
+                obj.setFgFinalizado(rs.getBoolean("fg_finalizado"));
+                lst.add((T) obj);
+            }
+        }
+        try {
+            return lst.get(0);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public T findById(Class classe, Integer id) throws SQLException {
         ArrayList<T> lst = new ArrayList<>();
         String sql = "SELECT * FROM";
@@ -153,8 +182,11 @@ public class DAO<T> {
                 lst.add((T) obj);
             }
         }
-
-        return lst.get(0);
+        try {
+            return lst.get(0);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public void inserir(T classe) throws SQLException {
@@ -173,6 +205,29 @@ public class DAO<T> {
             sql += " categoria(ds_categoria) VALUES (?)";
             st = conn.prepareStatement(sql);
             st.setString(1, obj.getDsCategoria());
+        } else if (classe instanceof Cliente) {
+            Cliente obj = (Cliente) classe;//fazendo CAST
+            sql += " cliente(id_cliente, nm_cliente) VALUES (?, ?);";
+            st = conn.prepareStatement(sql);
+            st.setInt(1, obj.getIdCliente());
+            st.setString(2, obj.getDsCliente());
+        } else if (classe instanceof Pedido) {
+            Pedido obj = (Pedido) classe;//fazendo CAST
+            sql += " pedido(id_cliente, dt_pedido, fg_finalizado, fg_entregue) VALUES (?, ?, ?, ?);";
+            st = conn.prepareStatement(sql);
+            st.setInt(1, obj.getIdCliente());
+            st.setDate(2, obj.getDtPedido());
+            st.setBoolean(3, obj.getFgFinalizado());
+            st.setBoolean(4, obj.getFgEntregue());
+        } else if (classe instanceof PedidoItem) {
+            PedidoItem obj = (PedidoItem) classe;//fazendo CAST
+            sql += " pedido_item(id_pedido, id_produto, qt_pedido, vl_preco, ds_observacao) VALUES (?, ?, ?, ?, ?);";
+            st = conn.prepareStatement(sql);
+            st.setInt(1, obj.getIdPedido());
+            st.setInt(2, obj.getIdProduto());
+            st.setInt(3, obj.getQtPedido());
+            st.setBigDecimal(4, obj.getVlPreco());
+            st.setString(5, obj.getDsObservacao());
         } else {
             throw new IllegalArgumentException("Método DAO não preparado para este objeto");
         }
