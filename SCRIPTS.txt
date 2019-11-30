@@ -18,10 +18,16 @@ CREATE TABLE produto
 
 CREATE TABLE cliente
 (
-  id_cliente serial NOT NULL,
-  nm_cliente varchar(255),
+  id_cliente integer NOT NULL,
+  nm_cliente character varying(255),
   CONSTRAINT cliente_pkey PRIMARY KEY (id_cliente)
+)
+WITH (
+  OIDS=FALSE
 );
+ALTER TABLE cliente
+  OWNER TO postgres;
+
 
 CREATE TABLE pedido
 (
