@@ -245,7 +245,6 @@ public class FrmPedido extends javax.swing.JFrame {
         FrmCategoria cat = new FrmCategoria();
         cat.setTitle("Categoria");
         cat.setVisible(true);
-        // TODO add your handling code here:
     }//GEN-LAST:event_btnCategoriaActionPerformed
 
     private void btnAtualizaTelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizaTelaActionPerformed
