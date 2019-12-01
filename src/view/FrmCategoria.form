@@ -127,6 +127,9 @@
                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tableCategoriaKeyPressed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -136,7 +139,7 @@
               <Image iconType="3" name="/view/icones/Add-icon.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Adicionar"/>
-            <Property name="toolTipText" type="java.lang.String" value="Adicionar Categoria (Ctrl+I)"/>
+            <Property name="toolTipText" type="java.lang.String" value="Adicionar Categoria(Ctrl+I)"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddCatActionPerformed"/>
@@ -179,7 +182,6 @@
           <Image iconType="3" name="/view/icones/Users-Exit-icon.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Fechar"/>
-        <Property name="toolTipText" type="java.lang.String" value="Fechar janela"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFecharActionPerformed"/>

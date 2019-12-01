@@ -6,6 +6,7 @@
 package view;
 
 import dal.DAO;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import model.Categoria;
 
@@ -63,6 +64,11 @@ public class FrmFormCategoria extends javax.swing.JDialog {
         txtCat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCatActionPerformed(evt);
+            }
+        });
+        txtCat.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCatKeyPressed(evt);
             }
         });
 
@@ -201,6 +207,29 @@ public class FrmFormCategoria extends javax.swing.JDialog {
     private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtIdActionPerformed
+
+    private void txtCatKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCatKeyPressed
+        if (evt.isControlDown()) {
+            if (evt.getKeyCode() == KeyEvent.VK_S) {
+                try {
+                    DAO dao = new DAO();
+                    Categoria c = new Categoria();
+                    if (!txtId.getText().isEmpty()) {
+                        c.setIdCategoria(Integer.parseInt(txtId.getText()));
+                    }
+                    c.setDsCategoria(txtCat.getText());
+                    if (c.getIdCategoria() == null) {
+                        dao.inserir(c);
+                    } else {
+                        dao.update(c);
+                    }
+                    this.dispose();
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Erro ao salvar a categoria, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_txtCatKeyPressed
 
     /**
      * @param args the command line arguments

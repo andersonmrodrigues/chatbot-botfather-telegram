@@ -6,9 +6,12 @@
 package view;
 
 import dal.DAO;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -21,6 +24,8 @@ import model.Categoria;
  * @author anderson
  */
 public class FrmCategoria extends JDialog {
+
+    private final Set<Integer> pressed = new HashSet<Integer>();
 
     /**
      * Creates new form FrmCategoria
@@ -67,11 +72,16 @@ public class FrmCategoria extends JDialog {
                 return types [columnIndex];
             }
         });
+        tableCategoria.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tableCategoriaKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableCategoria);
 
         btnAddCat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Add-icon.png"))); // NOI18N
         btnAddCat.setText("Adicionar");
-        btnAddCat.setToolTipText("Adicionar Categoria (Ctrl+I)");
+        btnAddCat.setToolTipText("Adicionar Categoria(Ctrl+I)");
         btnAddCat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddCatActionPerformed(evt);
@@ -132,7 +142,6 @@ public class FrmCategoria extends JDialog {
 
         btnFechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Users-Exit-icon.png"))); // NOI18N
         btnFechar.setText("Fechar");
-        btnFechar.setToolTipText("Fechar janela");
         btnFechar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFecharActionPerformed(evt);
@@ -168,15 +177,19 @@ public class FrmCategoria extends JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRmvCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRmvCatActionPerformed
-        int row = tableCategoria.getSelectedRow();
-        int column = 0;
-        Integer id = (Integer) tableCategoria.getValueAt(row, column);
         try {
-            DAO dao = new DAO();
-            Categoria c = new Categoria();
-            c.setIdCategoria(id);
-            dao.removeById(c);
-            carregaTable();
+            int row = tableCategoria.getSelectedRow();
+            if (row != -1) {
+                int column = 0;
+                Integer id = (Integer) tableCategoria.getValueAt(row, column);
+                DAO dao = new DAO();
+                Categoria c = new Categoria();
+                c.setIdCategoria(id);
+                dao.removeById(c);
+                carregaTable();
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione uma categoria na tabela.", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro ao remover a categoria, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
@@ -185,15 +198,19 @@ public class FrmCategoria extends JDialog {
 
     private void btnEditCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditCatActionPerformed
         // TODO add your handling code here:
-        int row = tableCategoria.getSelectedRow();
-        int column = 0;
-        Integer id = (Integer) tableCategoria.getValueAt(row, column);
         try {
-            DAO dao = new DAO();
-            Categoria c = (Categoria) dao.findById(Categoria.class, id);
-            if (c != null) {
-                FrmFormCategoria cat = new FrmFormCategoria(c);
-                cat.setVisible(true);
+            int row = tableCategoria.getSelectedRow();
+            if (row != -1) {
+                int column = 0;
+                Integer id = (Integer) tableCategoria.getValueAt(row, column);
+                DAO dao = new DAO();
+                Categoria c = (Categoria) dao.findById(Categoria.class, id);
+                if (c != null) {
+                    FrmFormCategoria cat = new FrmFormCategoria(c);
+                    cat.setVisible(true);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione uma categoria na tabela.", "AVISO", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro ao iniciar edição de categoria, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
@@ -213,6 +230,53 @@ public class FrmCategoria extends JDialog {
         this.dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_btnFecharActionPerformed
+
+    private void tableCategoriaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tableCategoriaKeyPressed
+        if (evt.isControlDown()) {
+            if (evt.getKeyCode() == KeyEvent.VK_I) {
+                FrmFormCategoria cat = new FrmFormCategoria();
+                cat.setTitle("Categoria");
+                cat.setVisible(true);
+                carregaTable();
+            } else if (evt.getKeyCode() == KeyEvent.VK_E) {
+                try {
+                    int row = tableCategoria.getSelectedRow();
+                    if (row != -1) {
+                        int column = 0;
+                        Integer id = (Integer) tableCategoria.getValueAt(row, column);
+                        DAO dao = new DAO();
+                        Categoria c = (Categoria) dao.findById(Categoria.class, id);
+                        if (c != null) {
+                            FrmFormCategoria cat = new FrmFormCategoria(c);
+                            cat.setVisible(true);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Selecione uma categoria na tabela.", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Erro ao iniciar edição de categoria, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
+                }
+                carregaTable();
+            } else if (evt.getKeyCode() == KeyEvent.VK_R) {
+                try {
+                    int row = tableCategoria.getSelectedRow();
+                    if (row != -1) {
+                        int column = 0;
+                        Integer id = (Integer) tableCategoria.getValueAt(row, column);
+                        DAO dao = new DAO();
+                        Categoria c = new Categoria();
+                        c.setIdCategoria(id);
+                        dao.removeById(c);
+                        carregaTable();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Selecione uma categoria na tabela.", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Erro ao remover a categoria, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_tableCategoriaKeyPressed
 
     /**
      * @param args the command line arguments
