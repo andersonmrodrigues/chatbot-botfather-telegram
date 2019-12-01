@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Categoria;
@@ -21,16 +21,17 @@ import model.Produto;
  *
  * @author anderson
  */
-public class FrmProduto extends javax.swing.JFrame {
+public class FrmProduto extends JDialog {
 
     /**
      * Creates new form FrmCategoria
      */
     public FrmProduto() {
         initComponents();
+        this.setModal(true);
         carregaTableProduto();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,12 +44,15 @@ public class FrmProduto extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableProduto = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnAddProd = new javax.swing.JButton();
+        btnEditProd = new javax.swing.JButton();
+        btnRemoveProd = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        btnFechar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         tableProduto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -68,20 +72,39 @@ public class FrmProduto extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tableProduto);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Add-icon.png"))); // NOI18N
-        jButton1.setText("Adicionar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAddProd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Add-icon.png"))); // NOI18N
+        btnAddProd.setText("Adicionar");
+        btnAddProd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnAddProdActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Editar");
+        btnEditProd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/edit.png"))); // NOI18N
+        btnEditProd.setText("Editar");
+        btnEditProd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditProdActionPerformed(evt);
+            }
+        });
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Button-Delete-icon.png"))); // NOI18N
-        jButton3.setText("Remover");
+        btnRemoveProd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Button-Delete-icon.png"))); // NOI18N
+        btnRemoveProd.setText("Remover");
+        btnRemoveProd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveProdActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Produto");
+
+        btnFechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Users-Exit-icon.png"))); // NOI18N
+        btnFechar.setText("Fechar");
+        btnFechar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFecharActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -93,13 +116,19 @@ public class FrmProduto extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAddProd, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEditProd, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnRemoveProd, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addContainerGap(30, Short.MAX_VALUE)))
-                    .addComponent(jLabel1)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addComponent(btnFechar)))
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,10 +139,12 @@ public class FrmProduto extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addGap(0, 6, Short.MAX_VALUE))
+                    .addComponent(btnAddProd)
+                    .addComponent(btnEditProd)
+                    .addComponent(btnRemoveProd))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addComponent(btnFechar)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -130,13 +161,48 @@ public class FrmProduto extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnAddProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProdActionPerformed
         FrmFormProduto prod = new FrmFormProduto();
         prod.setTitle("Produto");
         prod.setVisible(true);
-        prod.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        carregaTableProduto();
+    }//GEN-LAST:event_btnAddProdActionPerformed
+
+    private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnFecharActionPerformed
+
+    private void btnEditProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditProdActionPerformed
+        int row = tableProduto.getSelectedRow();
+        int column = 0;
+        Integer id = (Integer) tableProduto.getValueAt(row, column);
+        try {
+            DAO dao = new DAO();
+            Produto p = (Produto) dao.findById(Produto.class, id);
+            if (p != null) {
+                FrmFormProduto prod = new FrmFormProduto(p);
+                prod.setVisible(true);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao iniciar edição do produto, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
+        carregaTableProduto();
+    }//GEN-LAST:event_btnEditProdActionPerformed
+
+    private void btnRemoveProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveProdActionPerformed
+       int row = tableProduto.getSelectedRow();
+        int column = 0;
+        Integer id = (Integer) tableProduto.getValueAt(row, column);
+        try {
+            DAO dao = new DAO();
+            Produto p = new Produto();
+            p.setIdProduto(id);
+            dao.removeById(p);
+            carregaTableProduto();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao remover o produto, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnRemoveProdActionPerformed
 
     /**
      * @param args the command line arguments
@@ -175,9 +241,10 @@ public class FrmProduto extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnAddProd;
+    private javax.swing.JButton btnEditProd;
+    private javax.swing.JButton btnFechar;
+    private javax.swing.JButton btnRemoveProd;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

@@ -174,6 +174,7 @@ public class FrmCategoria extends JDialog {
             dao.removeById(c);
             carregaTable();
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao remover a categoria, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRmvCatActionPerformed
@@ -191,6 +192,7 @@ public class FrmCategoria extends JDialog {
                 cat.setVisible(true);
             }
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao iniciar edição de categoria, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
         carregaTable();
     }//GEN-LAST:event_btnEditCatActionPerformed

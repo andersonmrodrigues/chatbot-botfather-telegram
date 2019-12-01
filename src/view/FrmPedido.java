@@ -234,7 +234,6 @@ public class FrmPedido extends javax.swing.JFrame {
         FrmProduto prod = new FrmProduto();
         prod.setTitle("Produto");
         prod.setVisible(true);
-        prod.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_btnProdutoActionPerformed
 
     private void btnCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoriaActionPerformed
@@ -260,7 +259,6 @@ public class FrmPedido extends javax.swing.JFrame {
             Integer id = (Integer) tablePedido.getValueAt(row, col);
             finalizaPedido(id);
         }
-// TODO add your handling code here:
     }//GEN-LAST:event_btnFinalizaActionPerformed
 
     private void carregaTableItemPedido(Integer id) {
@@ -281,6 +279,7 @@ public class FrmPedido extends javax.swing.JFrame {
                 tbl.addRow(linha);
             }
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao carregar pedidos, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
 
     }
@@ -386,6 +385,7 @@ public class FrmPedido extends javax.swing.JFrame {
             dao.update(pedido);
             carregaTable();
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao finalizar o pedido, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
 
     }
