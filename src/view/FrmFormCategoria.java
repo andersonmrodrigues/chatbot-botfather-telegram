@@ -71,6 +71,7 @@ public class FrmFormCategoria extends javax.swing.JDialog {
 
         btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/save.png"))); // NOI18N
         btnSalvar.setText("Salvar");
+        btnSalvar.setToolTipText("Salvar Categoria(Ctrl+S)");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalvarActionPerformed(evt);
@@ -79,6 +80,7 @@ public class FrmFormCategoria extends javax.swing.JDialog {
 
         btnSalvar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Users-Exit-icon.png"))); // NOI18N
         btnSalvar2.setText("Cancelar");
+        btnSalvar2.setToolTipText("Cancelar operação");
         btnSalvar2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalvar2ActionPerformed(evt);

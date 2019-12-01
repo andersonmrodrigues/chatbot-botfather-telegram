@@ -128,6 +128,7 @@
               <Image iconType="3" name="/view/icones/Users-Exit-icon.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Fechar"/>
+            <Property name="toolTipText" type="java.lang.String" value="Fechar janela"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFecharActionPerformed"/>
@@ -187,6 +188,7 @@
               <Image iconType="3" name="/view/icones/list.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Produtos"/>
+            <Property name="toolTipText" type="java.lang.String" value="Abrir tela de Produtos"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProdutoActionPerformed"/>
@@ -258,6 +260,7 @@
               <Image iconType="3" name="/view/icones/list.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Categorias"/>
+            <Property name="toolTipText" type="java.lang.String" value="Abrir tela de Categorias"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCategoriaActionPerformed"/>
@@ -269,6 +272,7 @@
               <Image iconType="3" name="/view/icones/refresh.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Atualizar Tela"/>
+            <Property name="toolTipText" type="java.lang.String" value="Atualiza tela de pedidos"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAtualizaTelaActionPerformed"/>
@@ -280,6 +284,7 @@
               <Image iconType="3" name="/view/icones/finish.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Finalizar Entrega"/>
+            <Property name="toolTipText" type="java.lang.String" value="Finaliza a entrega de pedido"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFinalizaActionPerformed"/>

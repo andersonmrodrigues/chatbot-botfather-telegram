@@ -146,6 +146,7 @@
               <Image iconType="3" name="/view/icones/Add-icon.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Adicionar"/>
+            <Property name="toolTipText" type="java.lang.String" value="Adicionar Produto(Ctrl+I)"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddProdActionPerformed"/>
@@ -157,6 +158,7 @@
               <Image iconType="3" name="/view/icones/edit.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Editar"/>
+            <Property name="toolTipText" type="java.lang.String" value="Editar Produto (Ctrl+E)"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditProdActionPerformed"/>
@@ -168,6 +170,7 @@
               <Image iconType="3" name="/view/icones/Button-Delete-icon.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Remover"/>
+            <Property name="toolTipText" type="java.lang.String" value="Remover Produto(Ctrl+R)"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRemoveProdActionPerformed"/>
@@ -184,6 +187,7 @@
               <Image iconType="3" name="/view/icones/Users-Exit-icon.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Fechar"/>
+            <Property name="toolTipText" type="java.lang.String" value="Fechar janela"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFecharActionPerformed"/>

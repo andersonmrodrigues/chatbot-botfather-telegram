@@ -74,6 +74,7 @@ public class FrmProduto extends JDialog {
 
         btnAddProd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Add-icon.png"))); // NOI18N
         btnAddProd.setText("Adicionar");
+        btnAddProd.setToolTipText("Adicionar Produto(Ctrl+I)");
         btnAddProd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddProdActionPerformed(evt);
@@ -82,6 +83,7 @@ public class FrmProduto extends JDialog {
 
         btnEditProd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/edit.png"))); // NOI18N
         btnEditProd.setText("Editar");
+        btnEditProd.setToolTipText("Editar Produto (Ctrl+E)");
         btnEditProd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditProdActionPerformed(evt);
@@ -90,6 +92,7 @@ public class FrmProduto extends JDialog {
 
         btnRemoveProd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Button-Delete-icon.png"))); // NOI18N
         btnRemoveProd.setText("Remover");
+        btnRemoveProd.setToolTipText("Remover Produto(Ctrl+R)");
         btnRemoveProd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRemoveProdActionPerformed(evt);
@@ -100,6 +103,7 @@ public class FrmProduto extends JDialog {
 
         btnFechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Users-Exit-icon.png"))); // NOI18N
         btnFechar.setText("Fechar");
+        btnFechar.setToolTipText("Fechar janela");
         btnFechar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFecharActionPerformed(evt);

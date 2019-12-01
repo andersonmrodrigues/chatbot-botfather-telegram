@@ -71,6 +71,7 @@ public class FrmCategoria extends JDialog {
 
         btnAddCat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Add-icon.png"))); // NOI18N
         btnAddCat.setText("Adicionar");
+        btnAddCat.setToolTipText("Adicionar Categoria (Ctrl+I)");
         btnAddCat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddCatActionPerformed(evt);
@@ -79,6 +80,7 @@ public class FrmCategoria extends JDialog {
 
         btnEditCat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/edit.png"))); // NOI18N
         btnEditCat.setText("Editar");
+        btnEditCat.setToolTipText("Editar Categoria (Ctrl+E)");
         btnEditCat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditCatActionPerformed(evt);
@@ -87,6 +89,7 @@ public class FrmCategoria extends JDialog {
 
         btnRmvCat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Button-Delete-icon.png"))); // NOI18N
         btnRmvCat.setText("Remover");
+        btnRmvCat.setToolTipText("Remover Categoria(Ctrl+R)");
         btnRmvCat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRmvCatActionPerformed(evt);
@@ -129,6 +132,7 @@ public class FrmCategoria extends JDialog {
 
         btnFechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Users-Exit-icon.png"))); // NOI18N
         btnFechar.setText("Fechar");
+        btnFechar.setToolTipText("Fechar janela");
         btnFechar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFecharActionPerformed(evt);
@@ -147,7 +151,7 @@ public class FrmCategoria extends JDialog {
                         .addComponent(btnFechar)
                         .addContainerGap(315, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(

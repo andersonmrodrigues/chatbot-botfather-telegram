@@ -62,6 +62,7 @@ public class FrmPedido extends javax.swing.JFrame {
 
         btnFechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Users-Exit-icon.png"))); // NOI18N
         btnFechar.setText("Fechar");
+        btnFechar.setToolTipText("Fechar janela");
         btnFechar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFecharActionPerformed(evt);
@@ -95,6 +96,7 @@ public class FrmPedido extends javax.swing.JFrame {
 
         btnProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/list.png"))); // NOI18N
         btnProduto.setText("Produtos");
+        btnProduto.setToolTipText("Abrir tela de Produtos");
         btnProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnProdutoActionPerformed(evt);
@@ -128,6 +130,7 @@ public class FrmPedido extends javax.swing.JFrame {
 
         btnCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/list.png"))); // NOI18N
         btnCategoria.setText("Categorias");
+        btnCategoria.setToolTipText("Abrir tela de Categorias");
         btnCategoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCategoriaActionPerformed(evt);
@@ -136,6 +139,7 @@ public class FrmPedido extends javax.swing.JFrame {
 
         btnAtualizaTela.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/refresh.png"))); // NOI18N
         btnAtualizaTela.setText("Atualizar Tela");
+        btnAtualizaTela.setToolTipText("Atualiza tela de pedidos");
         btnAtualizaTela.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAtualizaTelaActionPerformed(evt);
@@ -144,6 +148,7 @@ public class FrmPedido extends javax.swing.JFrame {
 
         btnFinaliza.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/finish.png"))); // NOI18N
         btnFinaliza.setText("Finalizar Entrega");
+        btnFinaliza.setToolTipText("Finaliza a entrega de pedido");
         btnFinaliza.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFinalizaActionPerformed(evt);
@@ -196,7 +201,7 @@ public class FrmPedido extends javax.swing.JFrame {
                         .addComponent(btnProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(btnFechar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(10, 10, 10)
