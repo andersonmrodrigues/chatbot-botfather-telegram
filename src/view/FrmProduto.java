@@ -6,6 +6,7 @@
 package view;
 
 import dal.DAO;
+import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.NumberFormat;
@@ -19,19 +20,19 @@ import model.Produto;
 
 /**
  *
- * @author anderson
+ * @author Jean
  */
-public class FrmProduto extends JDialog {
+public class FrmProduto extends javax.swing.JFrame {
 
     /**
-     * Creates new form FrmCategoria
+     * Creates new form FrmProduto
      */
     public FrmProduto() {
         initComponents();
-        this.setModal(true);
         carregaTableProduto();
+        
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -68,6 +69,11 @@ public class FrmProduto extends JDialog {
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+        });
+        tableProduto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tableProdutoKeyPressed(evt);
             }
         });
         jScrollPane1.setViewportView(tableProduto);
@@ -146,7 +152,7 @@ public class FrmProduto extends JDialog {
                     .addComponent(btnAddProd)
                     .addComponent(btnEditProd)
                     .addComponent(btnRemoveProd))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addComponent(btnFechar)
                 .addContainerGap())
         );
@@ -177,15 +183,19 @@ public class FrmProduto extends JDialog {
     }//GEN-LAST:event_btnFecharActionPerformed
 
     private void btnEditProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditProdActionPerformed
-        int row = tableProduto.getSelectedRow();
-        int column = 0;
-        Integer id = (Integer) tableProduto.getValueAt(row, column);
         try {
-            DAO dao = new DAO();
-            Produto p = (Produto) dao.findById(Produto.class, id);
-            if (p != null) {
-                FrmFormProduto prod = new FrmFormProduto(p);
-                prod.setVisible(true);
+            int row = tableProduto.getSelectedRow();
+            if (row != -1) {
+                int column = 0;
+                Integer id = (Integer) tableProduto.getValueAt(row, column);
+                DAO dao = new DAO();
+                Produto p = (Produto) dao.findById(Produto.class, id);
+                if (p != null) {
+                    FrmFormProduto prod = new FrmFormProduto(p);
+                    prod.setVisible(true);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione um produto na tabela.", "AVISO", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro ao iniciar edição do produto, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
@@ -194,19 +204,70 @@ public class FrmProduto extends JDialog {
     }//GEN-LAST:event_btnEditProdActionPerformed
 
     private void btnRemoveProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveProdActionPerformed
-       int row = tableProduto.getSelectedRow();
-        int column = 0;
-        Integer id = (Integer) tableProduto.getValueAt(row, column);
         try {
-            DAO dao = new DAO();
-            Produto p = new Produto();
-            p.setIdProduto(id);
-            dao.removeById(p);
-            carregaTableProduto();
+            int row = tableProduto.getSelectedRow();
+            if (row != -1) {
+                int column = 0;
+                Integer id = (Integer) tableProduto.getValueAt(row, column);
+                DAO dao = new DAO();
+                Produto p = new Produto();
+                p.setIdProduto(id);
+                dao.removeById(p);
+                carregaTableProduto();
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione um produto na tabela.", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro ao remover o produto, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnRemoveProdActionPerformed
+
+    private void tableProdutoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tableProdutoKeyPressed
+        if (evt.isControlDown()) {
+            if (evt.getKeyCode() == KeyEvent.VK_I) {
+                FrmFormProduto prod = new FrmFormProduto();
+                prod.setTitle("Produto");
+                prod.setVisible(true);
+                carregaTableProduto();
+            } else if (evt.getKeyCode() == KeyEvent.VK_E) {
+                try {
+                    int row = tableProduto.getSelectedRow();
+                    if (row != -1) {
+                        int column = 0;
+                        Integer id = (Integer) tableProduto.getValueAt(row, column);
+                        DAO dao = new DAO();
+                        Produto p = (Produto) dao.findById(Produto.class, id);
+                        if (p != null) {
+                            FrmFormProduto prod = new FrmFormProduto(p);
+                            prod.setVisible(true);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Selecione um produto na tabela.", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Erro ao iniciar edição do produto, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
+                }
+                carregaTableProduto();
+            } else if (evt.getKeyCode() == KeyEvent.VK_R) {
+                try {
+                    int row = tableProduto.getSelectedRow();
+                    if (row != -1) {
+                        int column = 0;
+                        Integer id = (Integer) tableProduto.getValueAt(row, column);
+                        DAO dao = new DAO();
+                        Produto p = new Produto();
+                        p.setIdProduto(id);
+                        dao.removeById(p);
+                        carregaTableProduto();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Selecione um produto na tabela.", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Erro ao remover o produto, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_tableProdutoKeyPressed
 
     /**
      * @param args the command line arguments

@@ -8,14 +8,9 @@ package view;
 import dal.DAO;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.Categoria;
 
@@ -24,8 +19,6 @@ import model.Categoria;
  * @author anderson
  */
 public class FrmCategoria extends JDialog {
-
-    private final Set<Integer> pressed = new HashSet<Integer>();
 
     /**
      * Creates new form FrmCategoria
@@ -142,6 +135,7 @@ public class FrmCategoria extends JDialog {
 
         btnFechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Users-Exit-icon.png"))); // NOI18N
         btnFechar.setText("Fechar");
+        btnFechar.setToolTipText("Fechar janela");
         btnFechar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFecharActionPerformed(evt);

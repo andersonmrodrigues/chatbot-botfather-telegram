@@ -182,6 +182,7 @@
           <Image iconType="3" name="/view/icones/Users-Exit-icon.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Fechar"/>
+        <Property name="toolTipText" type="java.lang.String" value="Fechar janela"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFecharActionPerformed"/>
