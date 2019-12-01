@@ -55,6 +55,11 @@ public class FrmPedido extends javax.swing.JFrame {
         btnCategoria = new javax.swing.JButton();
         btnAtualizaTela = new javax.swing.JButton();
         btnFinaliza = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuCategoria = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuProd = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -209,6 +214,32 @@ public class FrmPedido extends javax.swing.JFrame {
                     .addContainerGap(264, Short.MAX_VALUE)))
         );
 
+        jMenu1.setText("Categorias");
+
+        jMenuCategoria.setText("Exibir Categorias");
+        jMenuCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuCategoriaActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuCategoria);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Produtos");
+
+        jMenuProd.setText("Exibir Produtos");
+        jMenuProd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuProdActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuProd);
+
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -264,6 +295,18 @@ public class FrmPedido extends javax.swing.JFrame {
             finalizaPedido(id);
         }
     }//GEN-LAST:event_btnFinalizaActionPerformed
+
+    private void jMenuCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCategoriaActionPerformed
+        FrmCategoria cat = new FrmCategoria();
+        cat.setTitle("Categoria");
+        cat.setVisible(true);
+    }//GEN-LAST:event_jMenuCategoriaActionPerformed
+
+    private void jMenuProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuProdActionPerformed
+        FrmProduto prod = new FrmProduto();
+        prod.setTitle("Produto");
+        prod.setVisible(true);
+    }//GEN-LAST:event_jMenuProdActionPerformed
 
     private void carregaTableItemPedido(Integer id) {
         try {
@@ -374,6 +417,11 @@ public class FrmPedido extends javax.swing.JFrame {
     private javax.swing.JButton btnFechar;
     private javax.swing.JButton btnFinaliza;
     private javax.swing.JButton btnProduto;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuCategoria;
+    private javax.swing.JMenuItem jMenuProd;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
