@@ -45,16 +45,47 @@ public class FrmPedido extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuBar2 = new javax.swing.JMenuBar();
+        jMenu4 = new javax.swing.JMenu();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
         jPanel1 = new javax.swing.JPanel();
         btnFechar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablePedido = new javax.swing.JTable();
-        btnProduto = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         tablePedidoItem = new javax.swing.JTable();
-        btnCategoria = new javax.swing.JButton();
         btnAtualizaTela = new javax.swing.JButton();
         btnFinaliza = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+
+        jMenu1.setText("jMenu1");
+
+        jMenu2.setText("jMenu2");
+
+        jMenuItem1.setText("jMenuItem1");
+
+        jMenuItem4.setText("jMenuItem4");
+
+        jMenu4.setText("File");
+        jMenuBar2.add(jMenu4);
+
+        jMenu5.setText("Edit");
+        jMenuBar2.add(jMenu5);
+
+        jMenuItem7.setText("jMenuItem7");
+
+        jRadioButtonMenuItem1.setSelected(true);
+        jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,6 +93,7 @@ public class FrmPedido extends javax.swing.JFrame {
 
         btnFechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Users-Exit-icon.png"))); // NOI18N
         btnFechar.setText("Fechar");
+        btnFechar.setToolTipText("Fechar janela");
         btnFechar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFecharActionPerformed(evt);
@@ -93,14 +125,6 @@ public class FrmPedido extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tablePedido);
 
-        btnProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/list.png"))); // NOI18N
-        btnProduto.setText("Produtos");
-        btnProduto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnProdutoActionPerformed(evt);
-            }
-        });
-
         tablePedidoItem.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -126,16 +150,9 @@ public class FrmPedido extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(tablePedidoItem);
 
-        btnCategoria.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/list.png"))); // NOI18N
-        btnCategoria.setText("Categorias");
-        btnCategoria.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCategoriaActionPerformed(evt);
-            }
-        });
-
         btnAtualizaTela.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/refresh.png"))); // NOI18N
         btnAtualizaTela.setText("Atualizar Tela");
+        btnAtualizaTela.setToolTipText("Atualiza tela de pedidos");
         btnAtualizaTela.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAtualizaTelaActionPerformed(evt);
@@ -144,6 +161,7 @@ public class FrmPedido extends javax.swing.JFrame {
 
         btnFinaliza.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/finish.png"))); // NOI18N
         btnFinaliza.setText("Finalizar Entrega");
+        btnFinaliza.setToolTipText("Finaliza a entrega de pedido");
         btnFinaliza.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFinalizaActionPerformed(evt);
@@ -164,10 +182,7 @@ public class FrmPedido extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(33, 33, 33)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
-                                    .addComponent(btnProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGap(0, 181, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -187,22 +202,44 @@ public class FrmPedido extends javax.swing.JFrame {
                 .addComponent(btnAtualizaTela)
                 .addGap(38, 38, 38)
                 .addComponent(btnFinaliza)
-                .addGap(64, 64, 64)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(66, 66, 66)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnFechar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(10, 10, 10)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(264, Short.MAX_VALUE)))
         );
+
+        jMenu3.setText("Cadastros");
+        jMenu3.setToolTipText("Cadastros");
+
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/list.png"))); // NOI18N
+        jMenuItem2.setText("Categorias");
+        jMenuItem2.setToolTipText("Lista e Cadastro de Categorias");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem2);
+
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/list.png"))); // NOI18N
+        jMenuItem3.setText("Produtos");
+        jMenuItem3.setToolTipText("Lista e Cadastro de Produtos");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem3);
+
+        jMenuBar1.add(jMenu3);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -229,20 +266,18 @@ public class FrmPedido extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnFecharActionPerformed
 
-    private void btnProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProdutoActionPerformed
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        FrmCategoria cat = new FrmCategoria();
+        cat.setTitle("Categoria");
+        cat.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
         FrmProduto prod = new FrmProduto();
         prod.setTitle("Produto");
         prod.setVisible(true);
-        prod.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    }//GEN-LAST:event_btnProdutoActionPerformed
-
-    private void btnCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoriaActionPerformed
-        FrmCategoria cat = new FrmCategoria();
-        cat.setTitle("Categoria");
-        cat.setVisible(true);
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCategoriaActionPerformed
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void btnAtualizaTelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizaTelaActionPerformed
         carregaTable();
@@ -260,7 +295,6 @@ public class FrmPedido extends javax.swing.JFrame {
             Integer id = (Integer) tablePedido.getValueAt(row, col);
             finalizaPedido(id);
         }
-// TODO add your handling code here:
     }//GEN-LAST:event_btnFinalizaActionPerformed
 
     private void carregaTableItemPedido(Integer id) {
@@ -281,6 +315,7 @@ public class FrmPedido extends javax.swing.JFrame {
                 tbl.addRow(linha);
             }
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao carregar pedidos, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
 
     }
@@ -367,11 +402,23 @@ public class FrmPedido extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAtualizaTela;
-    private javax.swing.JButton btnCategoria;
     private javax.swing.JButton btnFechar;
     private javax.swing.JButton btnFinaliza;
-    private javax.swing.JButton btnProduto;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuBar jMenuBar2;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPopupMenu jPopupMenu1;
+    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable tablePedido;
@@ -386,6 +433,7 @@ public class FrmPedido extends javax.swing.JFrame {
             dao.update(pedido);
             carregaTable();
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao finalizar o pedido, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
 
     }

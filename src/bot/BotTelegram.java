@@ -6,9 +6,12 @@
 package bot;
 
 import dal.DAO;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import model.Categoria;
 import model.Cliente;
 import model.Pedido;
@@ -48,6 +51,9 @@ public class BotTelegram extends TelegramLongPollingBot {
         return token;
     }
 
+    /**
+     * Recebe mensagens enviadas para o bot via telegram
+     */
     @Override
     public void onUpdateReceived(Update update) {
         new Thread() {
@@ -76,9 +82,12 @@ public class BotTelegram extends TelegramLongPollingBot {
         return botUser;
     }
 
+    /**
+     * Pergunta ou responde mensagem via teleagram
+     */
     private void enviaMensagem(long id, String mensagem, Integer idMsg) {
         ForceReplyKeyboard forceReplyKeyboard = getForceReply();
-        SendMessage message = new SendMessage(); // Create a message object object
+        SendMessage message = new SendMessage();
         message.setChatId(id);
 //        message.enableMarkdown(true);
         if (!fgFechou) {
@@ -89,12 +98,15 @@ public class BotTelegram extends TelegramLongPollingBot {
         }
         message.setText(mensagem);
         try {
-            execute(message); // Sending our message object to user
+            execute(message);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Verifica se o cliente existe, caso não existir cria um novo
+     */
     private String verificaClienteAndResponde(long id, String nome) {
         try {
             DAO dao = new DAO();
@@ -124,12 +136,19 @@ public class BotTelegram extends TelegramLongPollingBot {
         return "";
     }
 
+    /**
+     * Faz com que a mensagem enviada pelo bot tenha uma resposta
+     */
     private static ForceReplyKeyboard getForceReply() {
         ForceReplyKeyboard forceReplyKeyboard = new ForceReplyKeyboard();
         forceReplyKeyboard.setSelective(true);
         return forceReplyKeyboard;
     }
 
+    /**
+     * Principal metodo, identifica a resposta que o usuario enviou no telegram
+     * E faz as acoes, caso seja uma resposta reconhecida pelo bot
+     */
     private String verificaRespostaAndResponde(Message message) {
         String pergunta = message.getText();
         String respostaLetras = pergunta.replaceAll("[^a-zA-Z]", "");
@@ -161,13 +180,25 @@ public class BotTelegram extends TelegramLongPollingBot {
 
         }
         if (message.getReplyToMessage().getText().toLowerCase().contains("quantidade")) {
-            if (respostaNum.isEmpty()) {
-                String resposta = "Não entendi sua resposta. " + verificaClienteAndResponde(id, nome);
-                return resposta;
+            if (!respostaLetras.isEmpty() && respostaNum.isEmpty()) {
+                Integer extenso = verificaRespostaPorExtenso(respostaLetras);
+                if (extenso != null && extenso != 0) {
+                    qtd = extenso;
+                    String resposta = "Alguma observacao?";
+                    return resposta;
+                } else {
+                    String resposta = "Não entendi sua resposta. " + verificaClienteAndResponde(id, nome);
+                    return resposta;
+                }
             } else {
-                qtd = Integer.valueOf(respostaNum);
-                String resposta = "Alguma observacao?";
-                return resposta;
+                if (respostaNum.isEmpty()) {
+                    String resposta = "Não entendi sua resposta. " + verificaClienteAndResponde(id, nome);
+                    return resposta;
+                } else {
+                    qtd = Integer.valueOf(respostaNum);
+                    String resposta = "Alguma observacao?";
+                    return resposta;
+                }
             }
         }
         if (message.getReplyToMessage().getText().toLowerCase().contains("observacao")) {
@@ -198,6 +229,9 @@ public class BotTelegram extends TelegramLongPollingBot {
         return "Não entendi sua resposta. ";
     }
 
+    /**
+     * Verifica se a categoria enviada pelo usuario existe cadastrada
+     */
     private Categoria verificaCategoria(String respostaLetras, String respostaNum) {
         Categoria cat = null;
         for (Categoria categoria : catList) {
@@ -215,6 +249,9 @@ public class BotTelegram extends TelegramLongPollingBot {
         return cat;
     }
 
+    /**
+     * Busca e envia os produtos da categoria escolhida pelo usuario
+     */
     private String produtosByCat(Categoria cat) {
         try {
             DAO dao = new DAO();
@@ -231,6 +268,9 @@ public class BotTelegram extends TelegramLongPollingBot {
         return "";
     }
 
+    /**
+     * Verifica se o produto que o usuario escolheu existe cadastrado
+     */
     private Produto verificaProduto(String respostaLetras, String respostaNum) {
         Produto p = null;
         for (Produto produto : prodList) {
@@ -248,6 +288,9 @@ public class BotTelegram extends TelegramLongPollingBot {
         return p;
     }
 
+    /**
+     * Cria ou busca pedido e adiciona o item a este pedido
+     */
     private void criaBuscaPedidoEItem() {
         try {
             DAO dao = new DAO();
@@ -257,7 +300,7 @@ public class BotTelegram extends TelegramLongPollingBot {
                 pedido.setIdCliente(cliente.getIdCliente());
                 pedido.setFgEntregue(false);
                 pedido.setFgFinalizado(false);
-                pedido.setDtPedido(new java.sql.Date(new Date().getTime()));
+                pedido.setDtPedido(new Timestamp(System.currentTimeMillis()));
                 dao.inserir(pedido);
                 pedido = (Pedido) dao.findPedidoByIdCliente(Pedido.class, cliente.getIdCliente());
             }
@@ -273,6 +316,9 @@ public class BotTelegram extends TelegramLongPollingBot {
 
     }
 
+    /**
+     * Encerra o pedido do usuario
+     */
     private void fechaPedidoByCliente() {
         try {
             DAO dao = new DAO();
@@ -280,6 +326,57 @@ public class BotTelegram extends TelegramLongPollingBot {
             pedido.setFgFinalizado(true);
             dao.update(pedido);
         } catch (Exception e) {
+        }
+    }
+
+    /**
+     * Verificador se a resposta que usuario deu ao bot para a pergunta
+     * de quantidade, é por extenso
+     */
+    private Integer verificaRespostaPorExtenso(String respostaLetras) {
+        respostaLetras = respostaLetras.toLowerCase().trim();
+        if (respostaLetras.equalsIgnoreCase("uma")) {
+            respostaLetras = "um";
+        }
+        if (respostaLetras.equalsIgnoreCase("duas")) {
+            respostaLetras = "dois";
+        }
+        if (respostaLetras.equalsIgnoreCase("catorze")) {
+            respostaLetras = "quartorze";
+        }
+        HashMap<String, Integer> numbersMap = new HashMap<String, Integer>();
+        numbersMap.put("um", 1);
+        numbersMap.put("dois", 2);
+        numbersMap.put("tres", 3);
+        numbersMap.put("quatro", 4);
+        numbersMap.put("cinco", 5);
+        numbersMap.put("seis", 6);
+        numbersMap.put("sete", 7);
+        numbersMap.put("oito", 8);
+        numbersMap.put("nove", 9);
+        numbersMap.put("dez", 10);
+        numbersMap.put("onze", 11);
+        numbersMap.put("doze", 12);
+        numbersMap.put("treze", 13);
+        numbersMap.put("quartorze", 14);
+        numbersMap.put("quinze", 15);
+        numbersMap.put("dezesseis", 16);
+        numbersMap.put("dezessete", 17);
+        numbersMap.put("dezoito", 18);
+        numbersMap.put("dezenove", 19);
+        numbersMap.put("vinte", 20);
+        numbersMap.put("trinta", 30);
+        numbersMap.put("quarenta", 40);
+        numbersMap.put("cinquenta", 50);
+        numbersMap.put("sessenta", 60);
+        numbersMap.put("setenta", 70);
+        numbersMap.put("oitenta", 80);
+        numbersMap.put("noventa", 90);
+        numbersMap.put("cem", 100);
+        try {
+            return numbersMap.get(respostaLetras);
+        } catch (Exception e) {
+            return 0;
         }
     }
 }

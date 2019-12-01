@@ -6,12 +6,13 @@
 package view;
 
 import dal.DAO;
+import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Categoria;
@@ -19,15 +20,16 @@ import model.Produto;
 
 /**
  *
- * @author anderson
+ * @author Jean
  */
-public class FrmProduto extends javax.swing.JFrame {
+public class FrmProduto extends JDialog {
 
     /**
      * Creates new form FrmCategoria
      */
     public FrmProduto() {
         initComponents();
+        this.setModal(true);
         carregaTableProduto();
     }
 
@@ -43,19 +45,20 @@ public class FrmProduto extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableProduto = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnAddProd = new javax.swing.JButton();
+        btnEditProd = new javax.swing.JButton();
+        btnRmvProd = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        btnFechar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         tableProduto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Categoria", "Descrição", "Preço"
+                "ID", "Categoria", "Produto", "Preço"
             }
         ) {
             Class[] types = new Class [] {
@@ -66,20 +69,39 @@ public class FrmProduto extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        tableProduto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tableProdutoKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableProduto);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Add-icon.png"))); // NOI18N
-        jButton1.setText("Adicionar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAddProd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Add-icon.png"))); // NOI18N
+        btnAddProd.setText("Adicionar");
+        btnAddProd.setToolTipText("Adicionar Produto(Ctrl+I)");
+        btnAddProd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnAddProdActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Editar");
+        btnEditProd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/edit.png"))); // NOI18N
+        btnEditProd.setText("Editar");
+        btnEditProd.setToolTipText("Editar Produto(Ctrl+E)");
+        btnEditProd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditProdActionPerformed(evt);
+            }
+        });
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Button-Delete-icon.png"))); // NOI18N
-        jButton3.setText("Remover");
+        btnRmvProd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Button-Delete-icon.png"))); // NOI18N
+        btnRmvProd.setText("Remover");
+        btnRmvProd.setToolTipText("Remover Produto(Ctrl+R)");
+        btnRmvProd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRmvProdActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Produto");
 
@@ -93,50 +115,165 @@ public class FrmProduto extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAddProd, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEditProd, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnRmvProd, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addContainerGap(30, Short.MAX_VALUE)))
                     .addComponent(jLabel1)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(6, 6, 6)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addGap(0, 6, Short.MAX_VALUE))
+                    .addComponent(btnAddProd)
+                    .addComponent(btnEditProd)
+                    .addComponent(btnRmvProd))
+                .addGap(0, 34, Short.MAX_VALUE))
         );
+
+        btnFechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Users-Exit-icon.png"))); // NOI18N
+        btnFechar.setText("Fechar");
+        btnFechar.setToolTipText("Fechar janela");
+        btnFechar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFecharActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(btnFechar)
+                        .addContainerGap(315, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnFechar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnRmvProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRmvProdActionPerformed
+        try {
+            int row = tableProduto.getSelectedRow();
+            if (row != -1) {
+                int column = 0;
+                Integer id = (Integer) tableProduto.getValueAt(row, column);
+                DAO dao = new DAO();
+                Produto p = new Produto();
+                p.setIdProduto(id);
+                dao.removeById(p);
+                carregaTableProduto();
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione um produto na tabela.", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao remover o produto, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnRmvProdActionPerformed
+
+    private void btnEditProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditProdActionPerformed
+        try {
+            int row = tableProduto.getSelectedRow();
+            if (row != -1) {
+                int column = 0;
+                Integer id = (Integer) tableProduto.getValueAt(row, column);
+                DAO dao = new DAO();
+                Produto p = (Produto) dao.findById(Produto.class, id);
+                if (p != null) {
+                    FrmFormProduto prod = new FrmFormProduto(p);
+                    prod.setVisible(true);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione um produto na tabela.", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao iniciar edição do produto, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
+        carregaTableProduto();
+
+    }//GEN-LAST:event_btnEditProdActionPerformed
+
+    private void btnAddProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProdActionPerformed
         FrmFormProduto prod = new FrmFormProduto();
         prod.setTitle("Produto");
         prod.setVisible(true);
-        prod.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        carregaTableProduto();
+
+    }//GEN-LAST:event_btnAddProdActionPerformed
+
+    private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
+        this.dispose();
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnFecharActionPerformed
+
+    private void tableProdutoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tableProdutoKeyPressed
+        if (evt.isControlDown()) {
+            if (evt.getKeyCode() == KeyEvent.VK_I) {
+                FrmFormProduto prod = new FrmFormProduto();
+                prod.setTitle("Produto");
+                prod.setVisible(true);
+                carregaTableProduto();
+            } else if (evt.getKeyCode() == KeyEvent.VK_E) {
+                try {
+                    int row = tableProduto.getSelectedRow();
+                    if (row != -1) {
+                        int column = 0;
+                        Integer id = (Integer) tableProduto.getValueAt(row, column);
+                        DAO dao = new DAO();
+                        Produto p = (Produto) dao.findById(Produto.class, id);
+                        if (p != null) {
+                            FrmFormProduto prod = new FrmFormProduto(p);
+                            prod.setVisible(true);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Selecione um produto na tabela.", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Erro ao iniciar edição do produto, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
+                }
+                carregaTableProduto();
+            } else if (evt.getKeyCode() == KeyEvent.VK_R) {
+                try {
+                    int row = tableProduto.getSelectedRow();
+                    if (row != -1) {
+                        int column = 0;
+                        Integer id = (Integer) tableProduto.getValueAt(row, column);
+                        DAO dao = new DAO();
+                        Produto p = new Produto();
+                        p.setIdProduto(id);
+                        dao.removeById(p);
+                        carregaTableProduto();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Selecione um produto na tabela.", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Erro ao remover o produto, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_tableProdutoKeyPressed
 
     /**
      * @param args the command line arguments
@@ -175,9 +312,10 @@ public class FrmProduto extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnAddProd;
+    private javax.swing.JButton btnEditProd;
+    private javax.swing.JButton btnFechar;
+    private javax.swing.JButton btnRmvProd;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -194,9 +332,9 @@ public class FrmProduto extends javax.swing.JFrame {
             for (Produto p : produtoList) {
                 Object[] linha = new Object[4];
                 linha[0] = p.getIdProduto();
-                ArrayList<Categoria> catList = (ArrayList<Categoria>) dao.findById(Categoria.class, p.getIdCategoria());
-                if (catList != null && !catList.isEmpty()) {
-                    linha[1] = catList.get(0).getDsCategoria();
+                Categoria cat = (Categoria) dao.findById(Categoria.class, p.getIdCategoria());
+                if (cat != null) {
+                    linha[1] = cat.getDsCategoria();
                 } else {
                     linha[1] = "";
                 }

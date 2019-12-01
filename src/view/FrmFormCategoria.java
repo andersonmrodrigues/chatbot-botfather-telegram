@@ -6,6 +6,7 @@
 package view;
 
 import dal.DAO;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import model.Categoria;
 
@@ -65,12 +66,18 @@ public class FrmFormCategoria extends javax.swing.JDialog {
                 txtCatActionPerformed(evt);
             }
         });
+        txtCat.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCatKeyPressed(evt);
+            }
+        });
 
         lblNomeCat.setText("Nome:");
         lblNomeCat.setToolTipText("");
 
         btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/save.png"))); // NOI18N
         btnSalvar.setText("Salvar");
+        btnSalvar.setToolTipText("Salvar Categoria(Ctrl+S)");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalvarActionPerformed(evt);
@@ -79,6 +86,7 @@ public class FrmFormCategoria extends javax.swing.JDialog {
 
         btnSalvar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Users-Exit-icon.png"))); // NOI18N
         btnSalvar2.setText("Cancelar");
+        btnSalvar2.setToolTipText("Cancelar operação");
         btnSalvar2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalvar2ActionPerformed(evt);
@@ -105,21 +113,24 @@ public class FrmFormCategoria extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+                        .addComponent(btnSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSalvar2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jLabel1))
+                        .addComponent(btnSalvar2)
+                        .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblNomeCat)
-                            .addComponent(lblNomeCat1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtId)
-                            .addComponent(txtCat, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE))))
-                .addContainerGap(21, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(22, 22, 22)
+                                .addComponent(jLabel1))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblNomeCat)
+                                    .addComponent(lblNomeCat1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtCat, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
+                                    .addComponent(txtId))))
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,7 +191,7 @@ public class FrmFormCategoria extends javax.swing.JDialog {
             }
             this.dispose();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Erro ao salvar a categoria, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -196,6 +207,29 @@ public class FrmFormCategoria extends javax.swing.JDialog {
     private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtIdActionPerformed
+
+    private void txtCatKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCatKeyPressed
+        if (evt.isControlDown()) {
+            if (evt.getKeyCode() == KeyEvent.VK_S) {
+                try {
+                    DAO dao = new DAO();
+                    Categoria c = new Categoria();
+                    if (!txtId.getText().isEmpty()) {
+                        c.setIdCategoria(Integer.parseInt(txtId.getText()));
+                    }
+                    c.setDsCategoria(txtCat.getText());
+                    if (c.getIdCategoria() == null) {
+                        dao.inserir(c);
+                    } else {
+                        dao.update(c);
+                    }
+                    this.dispose();
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Erro ao salvar a categoria, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_txtCatKeyPressed
 
     /**
      * @param args the command line arguments

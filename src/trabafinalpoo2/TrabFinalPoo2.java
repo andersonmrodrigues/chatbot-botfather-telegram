@@ -23,13 +23,13 @@ public class TrabFinalPoo2 {
      */
     public static void main(String[] args) {
 
-        // Initialize Api Context
+        // Iniciando a API do telegram
         ApiContextInitializer.init();
 
-        // Instantiate Telegram Bots API
+        // Instanciando a API
         TelegramBotsApi botsApi = new TelegramBotsApi();
 
-        // Register our bot
+        // Registrando o bot na API com as credencias
         try {
             botsApi.registerBot(new BotTelegram());
         } catch (TelegramApiException e) {

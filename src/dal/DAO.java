@@ -55,7 +55,7 @@ public class DAO<T> {
                 Pedido obj = new Pedido();
                 obj.setIdPedido(rs.getInt("id_pedido"));
                 obj.setIdCliente(rs.getInt("id_cliente"));
-                obj.setDtPedido(rs.getDate("dt_pedido"));
+                obj.setDtPedido(rs.getTimestamp("dt_pedido"));
                 obj.setFgFinalizado(rs.getBoolean("fg_finalizado"));
                 obj.setFgEntregue(rs.getBoolean("fg_entregue"));
                 lst.add((T) obj);
@@ -101,7 +101,7 @@ public class DAO<T> {
                 Pedido obj = new Pedido();
                 obj.setIdPedido(rs.getInt("id_pedido"));
                 obj.setIdCliente(rs.getInt("id_cliente"));
-                obj.setDtPedido(rs.getDate("dt_pedido"));
+                obj.setDtPedido(rs.getTimestamp("dt_pedido"));
                 obj.setFgEntregue(rs.getBoolean("fg_entregue"));
                 obj.setFgFinalizado(rs.getBoolean("fg_finalizado"));
                 lst.add((T) obj);
@@ -176,7 +176,7 @@ public class DAO<T> {
                 Pedido obj = new Pedido();
                 obj.setIdPedido(rs.getInt("id_pedido"));
                 obj.setIdCliente(rs.getInt("id_cliente"));
-                obj.setDtPedido(rs.getDate("dt_pedido"));
+                obj.setDtPedido(rs.getTimestamp("dt_pedido"));
                 obj.setFgEntregue(rs.getBoolean("fg_entregue"));
                 obj.setFgFinalizado(rs.getBoolean("fg_finalizado"));
                 lst.add((T) obj);
@@ -216,7 +216,7 @@ public class DAO<T> {
             sql += " pedido(id_cliente, dt_pedido, fg_finalizado, fg_entregue) VALUES (?, ?, ?, ?);";
             st = conn.prepareStatement(sql);
             st.setInt(1, obj.getIdCliente());
-            st.setDate(2, obj.getDtPedido());
+            st.setTimestamp(2, obj.getDtPedido());
             st.setBoolean(3, obj.getFgFinalizado());
             st.setBoolean(4, obj.getFgEntregue());
         } else if (classe instanceof PedidoItem) {
@@ -275,7 +275,7 @@ public class DAO<T> {
                 sql += " pedido SET id_cliente=?, dt_pedido=?, fg_finalizado=?, fg_entregue=? WHERE id_pedido = " + obj.getIdPedido();
                 st = conn.prepareStatement(sql);
                 st.setInt(1, obj.getIdCliente());
-                st.setDate(2, obj.getDtPedido());
+                st.setTimestamp(2, obj.getDtPedido());
                 st.setBoolean(3, obj.getFgFinalizado());
                 st.setBoolean(4, obj.getFgEntregue());
             } else {

@@ -5,7 +5,7 @@
  */
 package model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  *
@@ -15,7 +15,7 @@ public class Pedido {
 
     private Integer idPedido;
     private Integer idCliente;
-    private Date dtPedido;
+    private Timestamp dtPedido;
     private Boolean fgFinalizado;
     private Boolean fgEntregue;
     private Cliente cliente;
@@ -36,11 +36,11 @@ public class Pedido {
         this.idCliente = idCliente;
     }
 
-    public Date getDtPedido() {
+    public Timestamp getDtPedido() {
         return dtPedido;
     }
 
-    public void setDtPedido(Date dtPedido) {
+    public void setDtPedido(Timestamp dtPedido) {
         this.dtPedido = dtPedido;
     }
 

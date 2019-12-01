@@ -6,13 +6,11 @@
 package view;
 
 import dal.DAO;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.Categoria;
 
@@ -23,7 +21,7 @@ import model.Categoria;
 public class FrmCategoria extends JDialog {
 
     /**
-     * Creates new form FrmCategoria
+     * Creates new form FrmCategoria Carrega tabela de categorias
      */
     public FrmCategoria() {
         initComponents();
@@ -67,10 +65,16 @@ public class FrmCategoria extends JDialog {
                 return types [columnIndex];
             }
         });
+        tableCategoria.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tableCategoriaKeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableCategoria);
 
         btnAddCat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Add-icon.png"))); // NOI18N
         btnAddCat.setText("Adicionar");
+        btnAddCat.setToolTipText("Adicionar Categoria(Ctrl+I)");
         btnAddCat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddCatActionPerformed(evt);
@@ -79,6 +83,7 @@ public class FrmCategoria extends JDialog {
 
         btnEditCat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/edit.png"))); // NOI18N
         btnEditCat.setText("Editar");
+        btnEditCat.setToolTipText("Editar Categoria (Ctrl+E)");
         btnEditCat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditCatActionPerformed(evt);
@@ -87,6 +92,7 @@ public class FrmCategoria extends JDialog {
 
         btnRmvCat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Button-Delete-icon.png"))); // NOI18N
         btnRmvCat.setText("Remover");
+        btnRmvCat.setToolTipText("Remover Categoria(Ctrl+R)");
         btnRmvCat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRmvCatActionPerformed(evt);
@@ -129,6 +135,7 @@ public class FrmCategoria extends JDialog {
 
         btnFechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/Users-Exit-icon.png"))); // NOI18N
         btnFechar.setText("Fechar");
+        btnFechar.setToolTipText("Fechar janela");
         btnFechar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFecharActionPerformed(evt);
@@ -147,14 +154,14 @@ public class FrmCategoria extends JDialog {
                         .addComponent(btnFechar)
                         .addContainerGap(315, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnFechar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -163,38 +170,57 @@ public class FrmCategoria extends JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Remove categoria selecionada e recarrega tabela de categorias
+     */
     private void btnRmvCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRmvCatActionPerformed
-        int row = tableCategoria.getSelectedRow();
-        int column = 0;
-        Integer id = (Integer) tableCategoria.getValueAt(row, column);
         try {
-            DAO dao = new DAO();
-            Categoria c = new Categoria();
-            c.setIdCategoria(id);
-            dao.removeById(c);
-            carregaTable();
+            int row = tableCategoria.getSelectedRow();
+            if (row != -1) {
+                int column = 0;
+                Integer id = (Integer) tableCategoria.getValueAt(row, column);
+                DAO dao = new DAO();
+                Categoria c = new Categoria();
+                c.setIdCategoria(id);
+                dao.removeById(c);
+                carregaTable();
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione uma categoria na tabela.", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+            }
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao remover a categoria, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRmvCatActionPerformed
 
+    /**
+     * Edita categoria selecionada e regarrega tabela de categorias
+     */
     private void btnEditCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditCatActionPerformed
         // TODO add your handling code here:
-        int row = tableCategoria.getSelectedRow();
-        int column = 0;
-        Integer id = (Integer) tableCategoria.getValueAt(row, column);
         try {
-            DAO dao = new DAO();
-            Categoria c = (Categoria) dao.findById(Categoria.class, id);
-            if (c != null) {
-                FrmFormCategoria cat = new FrmFormCategoria(c);
-                cat.setVisible(true);
+            int row = tableCategoria.getSelectedRow();
+            if (row != -1) {
+                int column = 0;
+                Integer id = (Integer) tableCategoria.getValueAt(row, column);
+                DAO dao = new DAO();
+                Categoria c = (Categoria) dao.findById(Categoria.class, id);
+                if (c != null) {
+                    FrmFormCategoria cat = new FrmFormCategoria(c);
+                    cat.setVisible(true);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione uma categoria na tabela.", "AVISO", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao iniciar edição de categoria, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
         carregaTable();
     }//GEN-LAST:event_btnEditCatActionPerformed
-
+    /**
+     * Abre formulario para caastro de nova categoria
+     * e apos cadastrar/cancelar regarrega tabela de categorias
+     */
     private void btnAddCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCatActionPerformed
         FrmFormCategoria cat = new FrmFormCategoria();
         cat.setTitle("Categoria");
@@ -207,6 +233,53 @@ public class FrmCategoria extends JDialog {
         this.dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_btnFecharActionPerformed
+
+    private void tableCategoriaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tableCategoriaKeyPressed
+        if (evt.isControlDown()) {
+            if (evt.getKeyCode() == KeyEvent.VK_I) {
+                FrmFormCategoria cat = new FrmFormCategoria();
+                cat.setTitle("Categoria");
+                cat.setVisible(true);
+                carregaTable();
+            } else if (evt.getKeyCode() == KeyEvent.VK_E) {
+                try {
+                    int row = tableCategoria.getSelectedRow();
+                    if (row != -1) {
+                        int column = 0;
+                        Integer id = (Integer) tableCategoria.getValueAt(row, column);
+                        DAO dao = new DAO();
+                        Categoria c = (Categoria) dao.findById(Categoria.class, id);
+                        if (c != null) {
+                            FrmFormCategoria cat = new FrmFormCategoria(c);
+                            cat.setVisible(true);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Selecione uma categoria na tabela.", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Erro ao iniciar edição de categoria, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
+                }
+                carregaTable();
+            } else if (evt.getKeyCode() == KeyEvent.VK_R) {
+                try {
+                    int row = tableCategoria.getSelectedRow();
+                    if (row != -1) {
+                        int column = 0;
+                        Integer id = (Integer) tableCategoria.getValueAt(row, column);
+                        DAO dao = new DAO();
+                        Categoria c = new Categoria();
+                        c.setIdCategoria(id);
+                        dao.removeById(c);
+                        carregaTable();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Selecione uma categoria na tabela.", "AVISO", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Erro ao remover a categoria, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_tableCategoriaKeyPressed
 
     /**
      * @param args the command line arguments
