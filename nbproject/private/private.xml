@@ -2,16 +2,8 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
         <group>
-            <file>file:/C:/trabFinalPoo2/src/view/FrmPedido.java</file>
-            <file>file:/C:/trabFinalPoo2/src/dal/DAO.java</file>
-            <file>file:/C:/trabFinalPoo2/src/view/FrmCategoria.java</file>
-            <file>file:/C:/trabFinalPoo2/src/view/FrmFormProduto.java</file>
-            <file>file:/C:/trabFinalPoo2/src/view/FrmProduto.java</file>
+            <file>file:/C:/trabFinalPoo2/src/bot/BotTelegram.java</file>
         </group>
-=======
-        <group/>
->>>>>>> 21f1cf3f4c507fe6075f15b7d79522d7d9b3a9d8
     </open-files>
 </project-private>
