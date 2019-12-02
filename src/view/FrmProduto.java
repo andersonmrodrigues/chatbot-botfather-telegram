@@ -20,7 +20,7 @@ import model.Produto;
 
 /**
  *
- * @author Jean
+ * @author Anderson e Jean
  */
 public class FrmProduto extends JDialog {
 
@@ -174,6 +174,9 @@ public class FrmProduto extends JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Botão para remover o produto selecionado
+     */
     private void btnRmvProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRmvProdActionPerformed
         try {
             int row = tableProduto.getSelectedRow();
@@ -193,6 +196,9 @@ public class FrmProduto extends JDialog {
         }
     }//GEN-LAST:event_btnRmvProdActionPerformed
 
+    /**
+     * Botão para Editar o produto selecionado
+     */
     private void btnEditProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditProdActionPerformed
         try {
             int row = tableProduto.getSelectedRow();
@@ -215,6 +221,9 @@ public class FrmProduto extends JDialog {
 
     }//GEN-LAST:event_btnEditProdActionPerformed
 
+    /**
+     * Botão para adicionar um novo produto
+     */
     private void btnAddProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddProdActionPerformed
         FrmFormProduto prod = new FrmFormProduto();
         prod.setTitle("Produto");
@@ -223,11 +232,17 @@ public class FrmProduto extends JDialog {
 
     }//GEN-LAST:event_btnAddProdActionPerformed
 
+    /**
+     * Botão para fechar a janela
+     */
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
         this.dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_btnFecharActionPerformed
 
+    /**
+     * Lógica de atralhos Ctrl+I, Ctrl+E,Ctrl+R
+     */
     private void tableProdutoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tableProdutoKeyPressed
         if (evt.isControlDown()) {
             if (evt.getKeyCode() == KeyEvent.VK_I) {
@@ -322,6 +337,9 @@ public class FrmProduto extends JDialog {
     private javax.swing.JTable tableProduto;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Método que carrega a lista de produtos cadastrados
+     */
     private void carregaTableProduto() {
         try {
             DAO dao = new DAO();
@@ -349,6 +367,9 @@ public class FrmProduto extends JDialog {
         }
     }
 
+    /**
+     * Método que formata o valor do produto para exibição em tela
+     */
     public static String currencyFormat(BigDecimal n) {
         return NumberFormat.getCurrencyInstance().format(n);
     }

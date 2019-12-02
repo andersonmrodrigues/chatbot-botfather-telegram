@@ -17,7 +17,7 @@ import model.Produto;
 
 /**
  *
- * @author Jean
+ * @author Anderson e Jean
  */
 public class FrmFormProduto extends javax.swing.JDialog {
 
@@ -30,6 +30,10 @@ public class FrmFormProduto extends javax.swing.JDialog {
         this.setModal(true);
     }
 
+    /**
+     * Carrega a FrmFormProduto já populada com o produto selecionado para
+     * edição
+     */
     public FrmFormProduto(Produto p) {
         try {
             initComponents();
@@ -51,6 +55,9 @@ public class FrmFormProduto extends javax.swing.JDialog {
         }
     }
 
+    /**
+     * Carrega os itens de categoria para popular a Combo de Categoria
+     */
     private void carregaCategoriaCombo() {
         try {
             DAO dao = new DAO();
@@ -233,6 +240,9 @@ public class FrmFormProduto extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtProdActionPerformed
 
+    /**
+     * Botão para salvar as alterações do Produto
+     */
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
             DAO dao = new DAO();
@@ -275,6 +285,9 @@ public class FrmFormProduto extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtIdActionPerformed
 
+    /**
+     * Lógica para atalho de salvar Ctrl + S
+     */
     private void txtProdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtProdKeyPressed
         if (evt.isControlDown()) {
             if (evt.getKeyCode() == KeyEvent.VK_S) {
@@ -308,6 +321,9 @@ public class FrmFormProduto extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_txtProdKeyPressed
 
+    /**
+     * Lógica para atalho de salvar Ctrl + S
+     */
     private void vlPrecoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_vlPrecoKeyPressed
         if (evt.isControlDown()) {
             if (evt.getKeyCode() == KeyEvent.VK_S) {

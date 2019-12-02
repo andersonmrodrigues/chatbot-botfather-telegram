@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 
 /**
  *
- * @author ANDER
+ * @author Anderson e Jean
  */
 public class PedidoItem {
 

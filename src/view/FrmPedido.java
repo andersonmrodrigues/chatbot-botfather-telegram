@@ -23,7 +23,7 @@ import static view.FrmProduto.currencyFormat;
 
 /**
  *
- * @author ivansuptitz
+ * @author Anderson e Jean
  */
 public class FrmPedido extends javax.swing.JFrame {
 
@@ -261,17 +261,26 @@ public class FrmPedido extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Botão para fechar a janela
+     */
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
         this.dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_btnFecharActionPerformed
 
+    /**
+     * Item Menu de Categoria
+     */
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         FrmCategoria cat = new FrmCategoria();
         cat.setTitle("Categoria");
         cat.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    /**
+     * Item Menu de Produto
+     */
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
         FrmProduto prod = new FrmProduto();
@@ -279,6 +288,9 @@ public class FrmPedido extends javax.swing.JFrame {
         prod.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    /**
+     * Botão para atualizar a tela de pedidos
+     */
     private void btnAtualizaTelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizaTelaActionPerformed
         carregaTable();
         DefaultTableModel tbl = (DefaultTableModel) tablePedidoItem.getModel();
@@ -286,6 +298,9 @@ public class FrmPedido extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAtualizaTelaActionPerformed
 
+    /**
+     * Botão para finalizar entrega de pedido
+     */
     private void btnFinalizaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizaActionPerformed
         int row = tablePedido.getSelectedRow();
         int col = 0;
@@ -297,18 +312,27 @@ public class FrmPedido extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnFinalizaActionPerformed
 
+    /**
+     * Menu de Categoria
+     */
     private void jMenuCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCategoriaActionPerformed
         FrmCategoria cat = new FrmCategoria();
         cat.setTitle("Categoria");
         cat.setVisible(true);
     }//GEN-LAST:event_jMenuCategoriaActionPerformed
 
+    /**
+     * Menu de Produto
+     */
     private void jMenuProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuProdActionPerformed
         FrmProduto prod = new FrmProduto();
         prod.setTitle("Produto");
         prod.setVisible(true);
     }//GEN-LAST:event_jMenuProdActionPerformed
 
+    /**
+     * Método para carregar itens pedidos a partir do pedido selecionado
+     */
     private void carregaTableItemPedido(Integer id) {
         try {
             DAO dao = new DAO();
@@ -332,6 +356,9 @@ public class FrmPedido extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Método que carrega os pedidos na tela de pedidos
+     */
     private void carregaTable() {
         try {
             DAO dao = new DAO();
@@ -437,6 +464,9 @@ public class FrmPedido extends javax.swing.JFrame {
     private javax.swing.JTable tablePedidoItem;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Método para finalizar um pedido
+     */
     private void finalizaPedido(Integer id) {
         try {
             DAO dao = new DAO();

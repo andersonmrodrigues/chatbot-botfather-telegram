@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 
 /**
  *
- * @author ANDER
+ * @author Anderson e Jean
  */
 public class Pedido {
 

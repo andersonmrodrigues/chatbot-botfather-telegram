@@ -2,7 +2,7 @@ package model;
 
 /**
  *
- * @author ivansuptitz
+ * @author Anderson e Jean
  */
 public class Cliente {
 

@@ -12,7 +12,7 @@ import model.Categoria;
 
 /**
  *
- * @author anderson
+ * @author Anderson e Jean
  */
 public class FrmFormCategoria extends javax.swing.JDialog {
 
@@ -24,6 +24,9 @@ public class FrmFormCategoria extends javax.swing.JDialog {
         this.setModal(true);
     }
 
+    /**
+     * Abre FrmFormCategoria já populada com a selecionada para realizar edição
+     */
     FrmFormCategoria(Categoria c) {
         initComponents();
         this.setModal(true);
@@ -175,6 +178,9 @@ public class FrmFormCategoria extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCatActionPerformed
 
+    /**
+     * Botão para salvar alterações na categoria
+     */
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
         try {
@@ -208,6 +214,9 @@ public class FrmFormCategoria extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtIdActionPerformed
 
+    /**
+     * Lógica para atalho de salvar Ctrl + S
+     */
     private void txtCatKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCatKeyPressed
         if (evt.isControlDown()) {
             if (evt.getKeyCode() == KeyEvent.VK_S) {

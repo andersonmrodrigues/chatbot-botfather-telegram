@@ -16,7 +16,7 @@ import model.Categoria;
 
 /**
  *
- * @author anderson
+ * @author Anderson e Jean
  */
 public class FrmCategoria extends JDialog {
 
@@ -217,9 +217,10 @@ public class FrmCategoria extends JDialog {
         }
         carregaTable();
     }//GEN-LAST:event_btnEditCatActionPerformed
+
     /**
-     * Abre formulario para caastro de nova categoria
-     * e apos cadastrar/cancelar regarrega tabela de categorias
+     * Abre formulario para caastro de nova categoria e apos cadastrar/cancelar
+     * regarrega tabela de categorias
      */
     private void btnAddCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCatActionPerformed
         FrmFormCategoria cat = new FrmFormCategoria();

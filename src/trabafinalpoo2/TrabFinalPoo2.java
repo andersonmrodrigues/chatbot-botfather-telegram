@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author ANDER
+ * @author Anderson e Jean
  */
 public class TrabFinalPoo2 {
 

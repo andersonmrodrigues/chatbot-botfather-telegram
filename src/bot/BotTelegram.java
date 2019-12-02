@@ -27,7 +27,7 @@ import static view.FrmProduto.currencyFormat;
 
 /**
  *
- * @author anderson
+ * @author Anderson
  */
 public class BotTelegram extends TelegramLongPollingBot {
 
@@ -330,8 +330,8 @@ public class BotTelegram extends TelegramLongPollingBot {
     }
 
     /**
-     * Verificador se a resposta que usuario deu ao bot para a pergunta
-     * de quantidade, é por extenso
+     * Verificador se a resposta que usuario deu ao bot para a pergunta de
+     * quantidade, é por extenso
      */
     private Integer verificaRespostaPorExtenso(String respostaLetras) {
         respostaLetras = respostaLetras.toLowerCase().trim();

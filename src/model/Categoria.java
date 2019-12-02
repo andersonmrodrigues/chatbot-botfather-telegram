@@ -7,9 +7,9 @@ package model;
 
 /**
  *
- * @author JEAN
+ * @author Anderson e Jean
  */
-public class Categoria implements Comparable{
+public class Categoria implements Comparable {
 
     private Integer idCategoria;
     private String dsCategoria;
@@ -32,15 +32,15 @@ public class Categoria implements Comparable{
 
     @Override
     public String toString() {
-        return  dsCategoria;
+        return dsCategoria;
     }
-    
+
     /**
      * Para ordenar por ordem alfabética
+     *
      * @param o
-     * @return 
+     * @return
      */
-    
     @Override
     public int compareTo(Object o) {
         return this.toString().compareTo(o.toString());

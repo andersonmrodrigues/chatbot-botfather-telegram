@@ -9,7 +9,7 @@ import model.*;
 
 /**
  *
- * @author ivansuptitz
+ * @author Anderson e Jean
  */
 public class DAO<T> {
 
