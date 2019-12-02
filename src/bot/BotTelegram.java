@@ -235,7 +235,7 @@ public class BotTelegram extends TelegramLongPollingBot {
     private Categoria verificaCategoria(String respostaLetras, String respostaNum) {
         Categoria cat = null;
         for (Categoria categoria : catList) {
-            if (categoria.getDsCategoria().replaceAll("[^a-zA-Z]", "").toLowerCase().equalsIgnoreCase(respostaLetras.toLowerCase())) {
+            if (categoria.getDsCategoria().replaceAll("[^a-zA-Z]", "").toLowerCase().contains(respostaLetras.toLowerCase())) {
                 cat = categoria;
                 break;
             }
@@ -255,7 +255,7 @@ public class BotTelegram extends TelegramLongPollingBot {
     private String produtosByCat(Categoria cat) {
         try {
             DAO dao = new DAO();
-            prodList = dao.findAll(Produto.class, null);
+            prodList = dao.findAll(Produto.class, cat.getIdCategoria());
             String msgPrd = "";
             for (Produto prod : prodList) {
                 msgPrd += prod.getIdProduto() + " - " + prod.getDsProduto() + " - " + currencyFormat(prod.getVlPreco()) + "\n";
@@ -274,7 +274,7 @@ public class BotTelegram extends TelegramLongPollingBot {
     private Produto verificaProduto(String respostaLetras, String respostaNum) {
         Produto p = null;
         for (Produto produto : prodList) {
-            if (produto.getDsProduto().replaceAll("[^a-zA-Z]", "").toLowerCase().equalsIgnoreCase(respostaLetras.toLowerCase())) {
+            if (produto.getDsProduto().replaceAll("[^a-zA-Z]", "").toLowerCase().contains(respostaLetras.toLowerCase())) {
                 p = produto;
                 break;
             }

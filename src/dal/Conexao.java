@@ -14,7 +14,7 @@ import java.sql.*;
 public class Conexao {
 
     private final String driver = "org.postgresql.Driver";
-    private final String url = "jdbc:postgresql://localhost:5432/trabalho";
+    private final String url = "jdbc:postgresql://localhost:5432/trab";
     private final String usuario = "postgres";
     private final String senha = "postgres";
     private final Connection conexao;

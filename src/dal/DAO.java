@@ -36,8 +36,16 @@ public class DAO<T> {
                 lst.add((T) obj);
             }
         } else if (classe == Produto.class) {
-            sql += " produto ORDER BY ds_produto ";
+            if (id != null) {
+                sql += " produto WHERE id_categoria = ? ORDER BY ds_produto ";
+
+            } else {
+                sql += " produto ORDER BY ds_produto ";
+            }
             st = conn.prepareStatement(sql);
+            if (id != null) {
+                st.setInt(1, id);
+            }
             rs = st.executeQuery();
             while (rs.next()) {
                 Produto obj = new Produto();
