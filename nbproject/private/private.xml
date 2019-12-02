@@ -3,10 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/trabFinalPoo2/src/bot/BotTelegram.java</file>
             <file>file:/C:/trabFinalPoo2/src/trabafinalpoo2/TrabFinalPoo2.java</file>
             <file>file:/C:/trabFinalPoo2/src/dal/Conexao.java</file>
             <file>file:/C:/trabFinalPoo2/src/view/FrmPedido.java</file>
+=======
+            <file>file:/home/kistenmacher/Documentos/projetos/trabFinalPoo2/src/view/FrmProduto.java</file>
+            <file>file:/home/kistenmacher/Documentos/projetos/trabFinalPoo2/src/view/FrmFormProduto.java</file>
+            <file>file:/home/kistenmacher/Documentos/projetos/trabFinalPoo2/src/dal/Conexao.java</file>
+            <file>file:/home/kistenmacher/Documentos/projetos/trabFinalPoo2/src/view/FrmFormCategoria.java</file>
+            <file>file:/home/kistenmacher/Documentos/projetos/trabFinalPoo2/src/view/FrmCategoria.java</file>
+>>>>>>> c5a0e4db7f0b038335a57a943360cd90aff2b87c
         </group>
     </open-files>
 </project-private>

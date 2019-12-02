@@ -297,6 +297,18 @@ public class FrmPedido extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnFinalizaActionPerformed
 
+    private void jMenuCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuCategoriaActionPerformed
+        FrmCategoria cat = new FrmCategoria();
+        cat.setTitle("Categoria");
+        cat.setVisible(true);
+    }//GEN-LAST:event_jMenuCategoriaActionPerformed
+
+    private void jMenuProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuProdActionPerformed
+        FrmProduto prod = new FrmProduto();
+        prod.setTitle("Produto");
+        prod.setVisible(true);
+    }//GEN-LAST:event_jMenuProdActionPerformed
+
     private void carregaTableItemPedido(Integer id) {
         try {
             DAO dao = new DAO();

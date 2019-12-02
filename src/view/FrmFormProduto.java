@@ -147,6 +147,12 @@ public class FrmFormProduto extends javax.swing.JDialog {
 
         jLabel3.setText("Preço:");
 
+        vlPreco.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                vlPrecoKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -301,6 +307,39 @@ public class FrmFormProduto extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_txtProdKeyPressed
+
+    private void vlPrecoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_vlPrecoKeyPressed
+        if (evt.isControlDown()) {
+            if (evt.getKeyCode() == KeyEvent.VK_S) {
+                try {
+                    DAO dao = new DAO();
+                    Produto p = new Produto();
+                    if (!txtId.getText().isEmpty()) {
+                        p.setIdProduto(Integer.parseInt(txtId.getText()));
+                    }
+
+                    Categoria cat = (Categoria) categoriaCombo.getSelectedItem();
+                    if (cat != null) {
+                        p.setIdCategoria(cat.getIdCategoria());
+                    }
+
+                    p.setDsProduto(txtProd.getText());
+
+                    String preco = vlPreco.getText().replace(",", ".");
+                    p.setVlPreco(new BigDecimal(preco));
+
+                    if (p.getIdProduto() == null) {
+                        dao.inserir(p);
+                    } else {
+                        dao.update(p);
+                    }
+                    this.dispose();
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Erro ao salvar o produto, tente novamente.", "ERRO", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_vlPrecoKeyPressed
 
     /**
      * @param args the command line arguments
