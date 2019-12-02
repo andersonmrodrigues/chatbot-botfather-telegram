@@ -55,3 +55,13 @@ CREATE TABLE pedido_item
   CONSTRAINT fk_produto FOREIGN KEY (id_produto)
   REFERENCES produto(id_produto)
 );
+
+
+INSERT INTO public.categoria(ds_categoria)
+    VALUES ('Pizza'),('Bebidas'),('Xis'),('Pastel'),('Cachorro-Quente');
+
+INSERT INTO public.produto(id_categoria, ds_produto, vl_preco)
+    VALUES (1, 'Mussarela', 30.00), (1, 'Calabresa', 28.00),(1, 'Frango', 30.00),(1, 'Margueritta', 28.00),(1, 'Bacon', 30.00), (1, 'Chocolate', 28.00),
+    (2, 'Suco', 5.00),(2, 'Refrigerante', 7.00),(2, 'Cerveja', 10.00),(3, 'Carne', 12.00), (3, 'Frango', 12.00),(3, 'Bacon', 15.00),(3, 'Calabresa', 15.00),(3, 'X-Tudo', 18.00),
+    (4, 'Carne', 8.00),(4, 'Frango', 8.00),(4, 'Bacon', 10.00), (4, 'Calabresa', 10.00), (5, 'Salsicha', 10.00), (5, 'Linguiça', 12.00), (5, 'Calabresa', 14.00);
+
