@@ -1,8 +1,8 @@
-# pedidosBotFather
-
 # Trabalho Final da Disciplina de Programação Orientada a Objetos II
 
-# Desenvolvido por Anderson Maik Rodrigues e Jean Matheus Backes Kistenmacher
+# Desenvolvido por:
+- Anderson Maik Rodrigues
+- Jean Matheus Backes Kistenmacher
 
 # Especificicação: 
 A cada dia mais pessoas escolhem a praticidade de pedir comida utilizando celular. Por
